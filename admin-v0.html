@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEA TOP 第一味 - TOP 10 數位看板雲端管理後台 (v0 UI)</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              orange: '#EC6F09',
+              'orange-hover': '#D86204',
+              'orange-light': '#FFF4EC',
+              navy: '#0C2F54',
+              'navy-light': '#1A3E66',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="data/default_menus.js?v=1"></script>
+  <script src="firebase-config.js?v=1"></script>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap');
+    body {
+      font-family: 'Noto Sans TC', 'Montserrat', sans-serif;
+      background-color: #f3f4f6;
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback, useMemo } = React;
+
+    const Icon = ({ name, size = 20, className = "" }) => {
+      const iconRef = React.useRef(null);
+      useEffect(() => {
+        if (iconRef.current && window.lucide) {
+          window.lucide.createIcons({
+            icons: { [name]: window.lucide.icons[name] },
+            nameAttr: 'data-lucide',
+            root: iconRef.current
+          });
+        }
+      }, [name]);
+      return <span ref={iconRef}><i data-lucide={name} style={{ width: size, height: size }} className={className}></i></span>;
+    };
+
+    const AdminDashboard = () => {
+      // 全局狀態
+      const [currentView, setCurrentView] = useState('signage'); // signage | catalog | pricing
+      const [toast, setToast] = useState(null);
+
+      // Signage 狀態
+      const [activeRegionId, setActiveRegionId] = useState('north');
+      const regions = window.DEFAULT_REGIONS || [
+        { id: 'north', name: '北部地區' },
+        { id: 'central', name: '中部地區' },
+        { id: 'south', name: '南部地區' },
+        { id: 'special', name: '特殊門市' } // 修正區域以對應
+      ];
+      const [menuData, setMenuData] = useState(null);
+      const [loadingSignage, setLoadingSignage] = useState(false);
+      const [signageDirty, setSignageDirty] = useState(false);
+      const [saving, setSaving] = useState(false);
+
+      // Catalog 狀態
+      const [products, setProducts] = useState([]);
+      const [loadingCatalog, setLoadingCatalog] = useState(false);
+      const [productPickerOpen, setProductPickerOpen] = useState(false);
+      const [pickingIndex, setPickingIndex] = useState(null);
+
+      // Pricing 狀態
+      const [allRegionMenus, setAllRegionMenus] = useState({});
+      const [loadingPricing, setLoadingPricing] = useState(false);
+
+      // 共用 Toast
+      const showToast = (message, type = 'success') => {
+        setToast({ message, type });
+        setTimeout(() => setToast(null), 3500);
+      };
+
+      // ===========================
+      // 資料加載區
+      // ===========================
+
+      // 載入商品總庫
+      const loadProducts = useCallback(async () => {
+        setLoadingCatalog(true);
+        try {
+          if (window.teatopFirebase) {
+            const data = await window.teatopFirebase.getProducts();
+            setProducts(data || window.DEFAULT_PRODUCTS || []);
+          } else {
+            setProducts(window.DEFAULT_PRODUCTS || []);
+          }
+        } catch (err) {
+          console.error("Failed to load products", err);
+          setProducts(window.DEFAULT_PRODUCTS || []);
+        }
+        setLoadingCatalog(false);
+      }, []);
+
+      // 載入單一地區資料 (Signage用)
+      const loadRegionData = useCallback(async (regionId) => {
+        setLoadingSignage(true);
+        try {
+          const fallbackData = (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION[regionId]) || 
+                               (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION.north) || { drinks: [] };
+          
+          if (window.teatopFirebase) {
+            const data = await window.teatopFirebase.getRegionMenu(regionId);
+            setMenuData(data || JSON.parse(JSON.stringify(fallbackData)));
+          } else {
+            setMenuData(JSON.parse(JSON.stringify(fallbackData)));
+          }
+          setSignageDirty(false);
+        } catch (err) {
+          console.error("Failed to load region data", err);
+        } finally {
+          setLoadingSignage(false);
+        }
+      }, []);
+
+      // 載入全區資料 (Pricing矩陣用)
+      const loadAllRegionsForPricing = useCallback(async () => {
+        setLoadingPricing(true);
+        try {
+          await loadProducts(); // 先確保總庫載入
+          const menus = {};
+          for (const reg of regions) {
+             const fallbackData = (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION[reg.id]) || 
+                               (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION.north) || { drinks: [] };
+             let data = null;
+             if (window.teatopFirebase) {
+               data = await window.teatopFirebase.getRegionMenu(reg.id);
+             }
+             menus[reg.id] = data || JSON.parse(JSON.stringify(fallbackData));
+          }
+          setAllRegionMenus(menus);
+        } catch (err) {
+          console.error("Failed to load pricing data", err);
+        } finally {
+          setLoadingPricing(false);
+        }
+      }, [regions, loadProducts]);
+
+
+      // 當視圖切換或區域切換時載入資料
+      useEffect(() => {
+        if (currentView === 'signage') {
+          loadRegionData(activeRegionId);
+        } else if (currentView === 'catalog') {
+          loadProducts();
+        } else if (currentView === 'pricing') {
+          loadAllRegionsForPricing();
+        }
+      }, [currentView, activeRegionId, loadRegionData, loadProducts, loadAllRegionsForPricing]);
+
+      // 當開啟挑選彈窗時，確保有總庫資料
+      useEffect(() => {
+        if (productPickerOpen && products.length === 0) {
+          loadProducts();
+        }
+      }, [productPickerOpen, products.length, loadProducts]);
+
+
+      // ===========================
+      // Signage 邏輯
+      // ===========================
+      
+      const handleSaveSignage = async () => {
+        if (!menuData) return;
+        setSaving(true);
+        try {
+          if (window.teatopFirebase) {
+            await window.teatopFirebase.saveRegionMenu(activeRegionId, menuData);
+            showToast('已成功發布！全台該區看板秒級同步完成。');
+            setSignageDirty(false);
+          } else {
+            showToast('Firebase 未連接，無法儲存。', 'error');
+          }
+        } catch (err) {
+          showToast(`儲存失敗: ${err.message}`, 'error');
+        } finally {
+          setSaving(false);
+        }
+      };
+
+      const updateDrinkField = (index, field, value) => {
+        const newData = { ...menuData };
+        newData.drinks[index][field] = value;
+        setMenuData(newData);
+        setSignageDirty(true);
+      };
+
+      const toggleBadge = (index, badgeStr) => {
+        const newData = { ...menuData };
+        const badges = newData.drinks[index].badges || [];
+        const existingIdx = badges.findIndex(b => b.includes(badgeStr));
+        
+        let targetTheme = newData.drinks[index].theme || 'orange';
+        
+        if (existingIdx >= 0) {
+           badges.splice(existingIdx, 1);
+        } else {
+           // 根據主題賦予正確顏色的 badge
+           let badgePath = `assets/images/badges/badge_${badgeStr}.png`;
+           if (targetTheme === 'navy' && badgeStr === 'hot') {
+              badgePath = `assets/images/badges/badge_hot_navy.png`;
+           }
+           badges.push(badgePath);
+        }
+        newData.drinks[index].badges = badges;
+        setMenuData(newData);
+        setSignageDirty(true);
+      };
+
+      const moveItem = (index, direction) => {
+        if ((direction === -1 && index === 0) || (direction === 1 && index === menuData.drinks.length - 1)) return;
+        const newData = { ...menuData };
+        const drinks = [...newData.drinks];
+        const temp = drinks[index];
+        drinks[index] = drinks[index + direction];
+        drinks[index + direction] = temp;
+        drinks.forEach((d, i) => { d.rank = String(i + 1).padStart(2, '0'); });
+        newData.drinks = drinks;
+        setMenuData(newData);
+        setSignageDirty(true);
+      };
+
+      const selectProductFromCatalog = (prod) => {
+        if (pickingIndex === null || !menuData) return;
+        const newData = { ...menuData };
+        const target = newData.drinks[pickingIndex];
+        target.name = prod.name;
+        target.engName = prod.engName || '';
+        target.price = prod.price || 0;
+        target.heroImg = prod.heroImg || '';
+        // 繼承 badges 但轉換主題
+        const currentTheme = target.theme || 'orange';
+        target.badges = (prod.badges || []).map(b => {
+           if (currentTheme === 'navy' && b.includes('orange')) return b.replace('orange', 'navy');
+           if (currentTheme === 'navy' && b.includes('badge_hot.png')) return b.replace('badge_hot.png', 'badge_hot_navy.png');
+           if (currentTheme === 'orange' && b.includes('navy')) return b.replace('navy', 'orange');
+           if (currentTheme === 'orange' && b.includes('badge_hot_navy.png')) return b.replace('badge_hot_navy.png', 'badge_hot.png');
+           return b;
+        });
+        setMenuData(newData);
+        setSignageDirty(true);
+        setProductPickerOpen(false);
+      };
+
+
+      // ===========================
+      // Pricing 邏輯
+      // ===========================
+      
+      const updateMatrixPrice = (prodName, regionId, newPrice) => {
+         const menus = { ...allRegionMenus };
+         if (menus[regionId] && menus[regionId].drinks) {
+            const target = menus[regionId].drinks.find(d => d.name === prodName);
+            if (target) {
+               target.price = Number(newPrice);
+            } else {
+               // 看板如果沒有這個商品，就無作用，或者可以選擇先忽略
+            }
+         }
+         setAllRegionMenus(menus);
+      };
+
+      const updateCatalogPrice = (prodId, newPrice) => {
+         const newProds = [...products];
+         const target = newProds.find(p => p.id === prodId);
+         if (target) {
+             target.price = Number(newPrice);
+             setProducts(newProds);
+         }
+      };
+
+      const handleSavePricing = async () => {
+         setSaving(true);
+         try {
+            if (window.teatopFirebase) {
+               // 儲存總庫
+               await window.teatopFirebase.saveProducts(products);
+               // 儲存各分區
+               for (const reg of regions) {
+                  if (allRegionMenus[reg.id]) {
+                     await window.teatopFirebase.saveRegionMenu(reg.id, allRegionMenus[reg.id]);
+                  }
+               }
+               showToast('全台價格與基準定價已成功更新與發布！');
+            } else {
+               showToast('Firebase 未連接', 'error');
+            }
+         } catch(err) {
+            showToast('儲存失敗', 'error');
+         } finally {
+            setSaving(false);
+         }
+      };
+
+
+      // ===========================
+      // 渲染元件
+      // ===========================
+
+      return (
+        <div className="min-h-screen flex flex-col relative font-sans text-gray-800">
+          
+          {/* Toast Notification */}
+          <div className={`fixed top-6 right-6 p-4 rounded-xl shadow-lg flex items-center gap-3 text-white font-bold transition-all duration-300 z-[100] ${
+            toast ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0 pointer-events-none'
+          } ${toast?.type === 'error' ? 'bg-red-500' : 'bg-brand-navy'}`}>
+            <Icon name={toast?.type === 'error' ? "AlertCircle" : "CheckCircle2"} size={20} />
+            {toast?.message}
+          </div>
+
+          {/* Product Picker Modal */}
+          {productPickerOpen && (
+             <div className="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center p-4">
+                <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
+                   <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                      <h3 className="text-lg font-bold text-brand-navy flex items-center gap-2">
+                         <Icon name="Search" size={18} /> 從商品總庫挑選
+                      </h3>
+                      <button onClick={() => setProductPickerOpen(false)} className="text-gray-500 hover:text-red-500">
+                         <Icon name="X" size={24} />
+                      </button>
+                   </div>
+                   <div className="p-2 border-b border-gray-100">
+                      <input 
+                         type="text" 
+                         placeholder="搜尋商品名稱..."
+                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-orange"
+                         onChange={(e) => {
+                           // 本地搜尋邏輯可擴充
+                         }}
+                      />
+                   </div>
+                   <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50">
+                      {products.map(prod => (
+                         <div key={prod.id || prod.name} 
+                              onClick={() => selectProductFromCatalog(prod)}
+                              className="flex items-center gap-4 p-3 bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-brand-orange hover:shadow-md transition-all">
+                            <img src={prod.heroImg} alt="" className="w-12 h-12 object-contain bg-gray-50 rounded-md" />
+                            <div className="flex-1">
+                               <div className="font-bold text-gray-800">{prod.name}</div>
+                               <div className="text-xs text-gray-500">{prod.engName}</div>
+                            </div>
+                            <div className="text-brand-orange font-black">${prod.price}</div>
+                            <button className="px-3 py-1 bg-brand-orange text-white text-xs font-bold rounded">選取</button>
+                         </div>
+                      ))}
+                      {products.length === 0 && (
+                         <div className="text-center text-gray-400 py-10">尚無商品，請先至商品總庫管理新增。</div>
+                      )}
+                   </div>
+                </div>
+             </div>
+          )}
+
+
+          {/* Header */}
+          <header className="bg-white border-b border-gray-200 px-6 flex justify-between items-center sticky top-0 z-50 shadow-sm">
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-3 py-4">
+                 <div className="bg-brand-orange text-white p-2 rounded-lg">
+                   <Icon name="CupSoda" size={24} />
+                 </div>
+                 <div>
+                   <h1 className="text-xl font-extrabold text-brand-navy flex items-center gap-2">
+                     TEA TOP <span className="text-brand-orange">TOP 10 管理</span>
+                   </h1>
+                 </div>
+              </div>
+
+              {/* View Switcher Tabs */}
+              <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-lg">
+                 <button 
+                    onClick={() => setCurrentView('signage')} 
+                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-bold transition-colors ${currentView === 'signage' ? 'bg-white shadow-sm text-brand-navy' : 'text-gray-500 hover:text-gray-700'}`}>
+                    <Icon name="MonitorPlay" size={16} /> 看板區域配置
+                 </button>
+                 <button 
+                    onClick={() => setCurrentView('catalog')} 
+                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-bold transition-colors ${currentView === 'catalog' ? 'bg-white shadow-sm text-brand-navy' : 'text-gray-500 hover:text-gray-700'}`}>
+                    <Icon name="PackageSearch" size={16} /> 商品總庫管理
+                 </button>
+                 <button 
+                    onClick={() => setCurrentView('pricing')} 
+                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-bold transition-colors ${currentView === 'pricing' ? 'bg-white shadow-sm text-brand-navy' : 'text-gray-500 hover:text-gray-700'}`}>
+                    <Icon name="Tags" size={16} /> 商品價格管理
+                 </button>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4 py-4">
+              <div className="flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 px-3 py-1.5 rounded-full text-xs font-bold">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                雲端連線正常
+              </div>
+            </div>
+          </header>
+
+
+          {/* Views */}
+          <main className="flex-1 w-full mx-auto bg-gray-100 p-6">
+            
+            {/* ===================== VIEW 1: SIGNAGE ===================== */}
+            {currentView === 'signage' && (
+               <div className="max-w-7xl mx-auto flex gap-6">
+                  {/* Sidebar */}
+                  <aside className="w-64 flex-shrink-0">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-24">
+                      <div className="p-4 bg-gray-50 border-b border-gray-200 font-bold text-gray-700 flex items-center gap-2">
+                        <Icon name="Map" size={18} /> 地區選擇
+                      </div>
+                      <div className="p-2 space-y-1">
+                        {regions.map(region => (
+                          <button
+                            key={region.id}
+                            onClick={() => {
+                              if (signageDirty && !window.confirm('您有未儲存的變更，確定要切換區域嗎？')) return;
+                              setActiveRegionId(region.id);
+                            }}
+                            className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold transition-all ${
+                              activeRegionId === region.id ? 'bg-brand-navy text-white shadow-md' : 'text-gray-600 hover:bg-gray-100'
+                            }`}
+                          >
+                            {region.name}
+                            <Icon name="ChevronRight" size={16} className={activeRegionId === region.id ? 'opacity-100' : 'opacity-0'} />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </aside>
+
+                  {/* Content */}
+                  <div className="flex-1 space-y-4 relative">
+                     <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                        <div>
+                           <h2 className="text-xl font-black text-brand-navy">📍 {regions.find(r=>r.id===activeRegionId)?.name} 看板排行榜配置</h2>
+                           <p className="text-xs text-gray-500 mt-1">管理該區各門市電子看板顯示的前10名飲品</p>
+                        </div>
+                        <div className="flex gap-2">
+                           <button 
+                             onClick={() => window.open(`index2.html?region=${activeRegionId}`, '_blank')}
+                             className="px-4 py-2 bg-gray-100 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-200 transition-colors"
+                           >預覽</button>
+                           <button 
+                             onClick={handleSaveSignage}
+                             disabled={saving || !signageDirty}
+                             className={`px-4 py-2 rounded-lg text-sm font-bold transition-colors ${
+                               signageDirty ? 'bg-brand-orange text-white shadow-md' : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                             }`}
+                           >{saving ? '儲存中...' : '儲存發布'}</button>
+                        </div>
+                     </div>
+
+                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 min-h-[600px] relative">
+                        {loadingSignage && (
+                           <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 rounded-xl">
+                             <Icon name="Loader2" size={32} className="animate-spin text-brand-orange" />
+                           </div>
+                        )}
+                        <div className="divide-y divide-gray-100">
+                           {menuData?.drinks?.map((item, idx) => {
+                              const isHot = (item.badges||[]).some(b=>b.includes('hot'));
+                              const isFixedSugar = (item.badges||[]).some(b=>b.includes('fixed_sugar'));
+                              const isNoCaff = (item.badges||[]).some(b=>b.includes('no_caffeine'));
+                              return (
+                              <div key={idx} className="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+                                 {/* 排序 */}
+                                 <div className="flex flex-col gap-1 pr-2">
+                                    <button onClick={() => moveItem(idx, -1)} disabled={idx===0} className={`p-1 rounded ${idx===0 ? 'text-gray-300' : 'text-gray-500 hover:bg-gray-200'}`}><Icon name="ChevronUp" size={16} /></button>
+                                    <button onClick={() => moveItem(idx, 1)} disabled={idx===menuData.drinks.length-1} className={`p-1 rounded ${idx===menuData.drinks.length-1 ? 'text-gray-300' : 'text-gray-500 hover:bg-gray-200'}`}><Icon name="ChevronDown" size={16} /></button>
+                                 </div>
+                                 {/* 名次 */}
+                                 <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg bg-gray-100 text-gray-600 shadow-inner">
+                                    {item.rank}
+                                 </div>
+                                 {/* 圖片 */}
+                                 <div className="w-16 h-16 relative bg-white border border-gray-200 rounded-lg overflow-hidden shrink-0">
+                                    <img src={item.heroImg} className="w-full h-full object-contain" />
+                                 </div>
+                                 
+                                 {/* 欄位展示 (僅供挑選，不可編輯) */}
+                                 <div className="flex-1 flex justify-between items-center bg-gray-50 p-3 rounded-lg border border-gray-100">
+                                    <div className="flex flex-col">
+                                       <div className="font-bold text-lg text-brand-navy flex items-center gap-2">
+                                          {item.name}
+                                          {isHot && <span className="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded border border-red-200">♨️ 熱飲</span>}
+                                          {isFixedSugar && <span className="text-[10px] bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded border border-purple-200">🍬 固定甜</span>}
+                                          {isNoCaff && <span className="text-[10px] bg-green-100 text-green-600 px-1.5 py-0.5 rounded border border-green-200">🌿 無咖啡因</span>}
+                                       </div>
+                                       <div className="text-xs text-gray-500">{item.engName}</div>
+                                    </div>
+                                    
+                                    <div className="flex items-center gap-6">
+                                       <div className="text-right">
+                                          <div className="text-xs text-gray-400 font-bold">看板售價</div>
+                                          <div className="text-lg font-black text-brand-orange">${item.price}</div>
+                                       </div>
+                                       <button onClick={() => { setPickingIndex(idx); setProductPickerOpen(true); }} className="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-bold text-brand-navy hover:text-brand-orange hover:border-brand-orange flex items-center gap-2 transition-all">
+                                          <Icon name="PackageSearch" size={16} /> 變更飲品
+                                       </button>
+                                    </div>
+                                 </div>
+                              </div>
+                           )})}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            )}
+
+
+            {/* ===================== VIEW 2: CATALOG ===================== */}
+            {currentView === 'catalog' && (
+               <div className="max-w-6xl mx-auto space-y-6">
+                  <div className="bg-gradient-to-r from-brand-navy to-brand-navy-light text-white p-6 rounded-xl shadow-md flex justify-between items-center">
+                     <div>
+                        <h2 className="text-2xl font-black flex items-center gap-2"><Icon name="PackageSearch" size={24} /> 全域商品總庫</h2>
+                        <p className="text-sm opacity-80 mt-1">集中管理所有飲品基本資料。修改此處將影響未來的套用，不會直接覆蓋已發布的看板。</p>
+                     </div>
+                     <div className="flex gap-2">
+                        <button className="bg-brand-orange text-white px-4 py-2 rounded-lg font-bold shadow-md hover:bg-orange-500 flex items-center gap-2">
+                           <Icon name="PlusCircle" size={18} /> 新增商品
+                        </button>
+                        <button 
+                           onClick={async () => {
+                              setSaving(true);
+                              try {
+                                 if (window.teatopFirebase) {
+                                    await window.teatopFirebase.saveProducts(products);
+                                    showToast('商品總庫已儲存成功！');
+                                 }
+                              } catch(e) {
+                                 showToast('儲存失敗', 'error');
+                              } finally {
+                                 setSaving(false);
+                              }
+                           }}
+                           disabled={saving}
+                           className="bg-green-500 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:bg-green-600 flex items-center gap-2">
+                           <Icon name={saving ? "Loader2" : "Save"} size={18} className={saving ? "animate-spin" : ""} /> 
+                           儲存總庫
+                        </button>
+                     </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden min-h-[400px] relative">
+                     {loadingCatalog && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10"><Icon name="Loader2" size={32} className="animate-spin text-brand-orange" /></div>
+                     )}
+                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
+                        {products.map((prod, idx) => {
+                           const isHot = (prod.badges||[]).some(b=>b.includes('hot'));
+                           const isFixedSugar = (prod.badges||[]).some(b=>b.includes('fixed_sugar'));
+                           const isNoCaff = (prod.badges||[]).some(b=>b.includes('no_caffeine'));
+                           return (
+                           <div key={idx} className="border border-gray-200 rounded-xl p-4 flex gap-4 hover:border-brand-orange transition-colors">
+                              <div className="w-20 h-20 bg-gray-50 rounded-lg border border-gray-100 flex-shrink-0 flex items-center justify-center relative cursor-pointer group">
+                                 <img src={prod.heroImg} className="max-w-full max-h-full object-contain" />
+                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-lg transition-opacity">
+                                    <Icon name="Image" size={20} className="text-white" />
+                                 </div>
+                              </div>
+                              <div className="flex-1 grid grid-cols-12 gap-2">
+                                 <div className="col-span-12">
+                                    <label className="text-[10px] font-bold text-gray-500">中文/英文品名</label>
+                                    <input type="text" value={prod.name} onChange={(e) => {
+                                       const newProds = [...products];
+                                       newProds[idx].name = e.target.value;
+                                       setProducts(newProds);
+                                    }} className="w-full px-2 py-1 border border-gray-300 rounded font-bold text-sm mb-1 focus:border-brand-orange" />
+                                    <input type="text" value={prod.engName} onChange={(e) => {
+                                       const newProds = [...products];
+                                       newProds[idx].engName = e.target.value;
+                                       setProducts(newProds);
+                                    }} className="w-full px-2 py-1 border border-gray-300 rounded text-[11px] text-gray-500 focus:border-brand-orange" />
+                                 </div>
+                                 <div className="col-span-12 mt-1">
+                                    <div className="flex gap-3 mt-1">
+                                       <label className="flex items-center gap-1 text-[11px] cursor-pointer text-gray-600"><input type="checkbox" checked={isHot} onChange={()=>{
+                                          const newProds = [...products];
+                                          const b = newProds[idx].badges || [];
+                                          const i = b.findIndex(x=>x.includes('hot'));
+                                          if(i>=0) b.splice(i, 1);
+                                          else b.push('assets/images/badges/badge_hot.png');
+                                          newProds[idx].badges = b;
+                                          setProducts(newProds);
+                                       }} /> ♨️ 可熱飲</label>
+                                       <label className="flex items-center gap-1 text-[11px] cursor-pointer text-gray-600"><input type="checkbox" checked={isFixedSugar} onChange={()=>{
+                                          const newProds = [...products];
+                                          const b = newProds[idx].badges || [];
+                                          const i = b.findIndex(x=>x.includes('fixed_sugar'));
+                                          if(i>=0) b.splice(i, 1);
+                                          else b.push('assets/images/badges/badge_fixed_sugar.png');
+                                          newProds[idx].badges = b;
+                                          setProducts(newProds);
+                                       }} /> 🍬 固定甜</label>
+                                       <label className="flex items-center gap-1 text-[11px] cursor-pointer text-gray-600"><input type="checkbox" checked={isNoCaff} onChange={()=>{
+                                          const newProds = [...products];
+                                          const b = newProds[idx].badges || [];
+                                          const i = b.findIndex(x=>x.includes('no_caffeine'));
+                                          if(i>=0) b.splice(i, 1);
+                                          else b.push('assets/images/badges/badge_no_caffeine.png');
+                                          newProds[idx].badges = b;
+                                          setProducts(newProds);
+                                       }} /> 🌿 無咖啡因</label>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        )})}
+                     </div>
+                  </div>
+               </div>
+            )}
+
+
+            {/* ===================== VIEW 3: PRICING ===================== */}
+            {currentView === 'pricing' && (
+               <div className="max-w-[1400px] mx-auto space-y-6">
+                  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex justify-between items-center">
+                     <div>
+                        <h2 className="text-2xl font-black text-brand-navy flex items-center gap-2"><Icon name="Tags" size={24} /> 全台各區商品價格矩陣</h2>
+                        <p className="text-sm text-gray-500 mt-1">一覽並統一調整「各分區看板價」與「總庫基準價」。修改後請點擊發布以生效。</p>
+                     </div>
+                     <button 
+                        onClick={handleSavePricing}
+                        disabled={saving}
+                        className="bg-brand-orange hover:bg-orange-600 text-white px-6 py-3 rounded-xl font-bold shadow-md shadow-orange-500/20 flex items-center gap-2 transition-all">
+                        <Icon name={saving ? "Loader2" : "CloudUpload"} size={20} className={saving ? "animate-spin" : ""} /> 
+                        {saving ? "發布中..." : "全面儲存並發布"}
+                     </button>
+                  </div>
+
+                  {/* 價格矩陣表格 */}
+                  <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden relative">
+                     {loadingPricing && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10"><Icon name="Loader2" size={32} className="animate-spin text-brand-orange" /></div>
+                     )}
+                     <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                           <thead>
+                              <tr className="bg-gray-50 border-b border-gray-200 text-sm font-bold text-brand-navy">
+                                 <th className="p-3 text-center w-16">圖片</th>
+                                 <th className="p-3">飲品名稱</th>
+                                 <th className="p-3 text-center bg-orange-50/50 border-x border-gray-200">總庫基準價</th>
+                                 {regions.map(r => <th key={r.id} className="p-3 text-center">📍 {r.name}</th>)}
+                              </tr>
+                           </thead>
+                           <tbody className="divide-y divide-gray-100 text-sm">
+                              {products.map((prod) => (
+                                 <tr key={prod.id || prod.name} className="hover:bg-gray-50 transition-colors">
+                                    <td className="p-2 text-center">
+                                       <img src={prod.heroImg} className="w-10 h-10 object-contain mx-auto bg-white border border-gray-200 rounded" />
+                                    </td>
+                                    <td className="p-2">
+                                       <div className="font-bold text-gray-800">{prod.name}</div>
+                                       <div className="text-[10px] text-gray-500">{prod.engName}</div>
+                                    </td>
+                                    {/* 總庫基準價 */}
+                                    <td className="p-2 text-center bg-orange-50/30 border-x border-gray-100">
+                                       <div className="flex items-center justify-center gap-1">
+                                          <span className="text-gray-400 font-bold">$</span>
+                                          <input type="number" 
+                                             value={prod.price || 0} 
+                                             onChange={(e) => updateCatalogPrice(prod.id, e.target.value)}
+                                             className="w-16 px-1 py-1 text-center font-black text-brand-orange border border-transparent hover:border-gray-300 focus:border-brand-orange rounded bg-transparent focus:bg-white transition-all" />
+                                       </div>
+                                    </td>
+                                    {/* 各分區價格 */}
+                                    {regions.map(r => {
+                                       const d = (allRegionMenus[r.id]?.drinks || []).find(x => x.name === prod.name);
+                                       const pPrice = d ? d.price : '';
+                                       const hasProduct = !!d;
+                                       return (
+                                       <td key={r.id} className="p-2 text-center">
+                                          {hasProduct ? (
+                                          <div className="flex items-center justify-center gap-1">
+                                             <span className="text-gray-300 font-bold">$</span>
+                                             <input type="number" 
+                                                value={pPrice} 
+                                                onChange={(e) => updateMatrixPrice(prod.name, r.id, e.target.value)}
+                                                className="w-16 px-1 py-1 text-center font-bold text-gray-700 border border-transparent hover:border-gray-300 focus:border-brand-orange rounded bg-transparent focus:bg-white transition-all" />
+                                          </div>
+                                          ) : (
+                                          <span className="text-gray-300 text-xs">—</span>
+                                          )}
+                                       </td>
+                                       );
+                                    })}
+                                 </tr>
+                              ))}
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            )}
+
+          </main>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<AdminDashboard />);
+  </script>
+</body>
+</html>

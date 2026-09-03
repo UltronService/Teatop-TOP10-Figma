@@ -114,6 +114,19 @@ class MenuBoardApp2 {
     this.progress = 0;
     this.lastTimestamp = null;
     this.animFrameId = null;
+    this.unsubscribeLive = null;
+
+    // 解析 URL 中的分區參數（例如 ?region=north 或 ?region=central，預設為 north）
+    const urlParams = new URLSearchParams(window.location.search);
+    this.regionId = urlParams.get('region') || 'north';
+
+    // 優先讀取本地預設資料，確保機上盒秒開零延遲、斷網保證不白屏
+    const defaultData = (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION[this.regionId])
+      || (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION.north)
+      || { drinks: DRINKS_DATA, regionName: '北區門市' };
+
+    this.regionName = defaultData.regionName || '北區門市';
+    this.drinksData = defaultData.drinks || DRINKS_DATA;
 
     // DOM 元素
     this.scaler = document.getElementById('screen-scaler');
@@ -130,7 +143,7 @@ class MenuBoardApp2 {
     this.init();
   }
 
-  init() {
+  async init() {
     this.handleResize();
     window.addEventListener('resize', () => this.handleResize());
 
@@ -138,6 +151,42 @@ class MenuBoardApp2 {
     this.selectDrink(0, false);
     this.startCarousel();
     this.bindEvents();
+
+    // 啟動 Firebase 雲端資料同步與即時監聽
+    this.setupCloudSync();
+  }
+
+  // 雲端即時同步與斷網保護
+  async setupCloudSync() {
+    if (!window.teatopFirebase) return;
+
+    try {
+      const cloudData = await window.teatopFirebase.getRegionMenu(this.regionId);
+      if (cloudData && Array.isArray(cloudData.drinks) && cloudData.drinks.length > 0) {
+        console.log(`[看板] 成功載入雲端 [${this.regionId}] 菜單`);
+        this.applyUpdatedMenu(cloudData);
+      }
+    } catch (err) {
+      console.warn('[看板] 離線保護生效，持續使用本地菜單:', err);
+    }
+
+    // 啟動即時推送監聽 (當管理後台儲存發布時，本看板秒級自動更新)
+    this.unsubscribeLive = window.teatopFirebase.listenRegionMenu(this.regionId, (newMenu) => {
+      if (newMenu && Array.isArray(newMenu.drinks) && newMenu.drinks.length > 0) {
+        console.log(`[看板 Live] 收到雲端即時更新 [${this.regionId}]`);
+        this.applyUpdatedMenu(newMenu);
+      }
+    });
+  }
+
+  applyUpdatedMenu(menuData) {
+    if (menuData.regionName) {
+      this.regionName = menuData.regionName;
+    }
+    this.drinksData = menuData.drinks;
+    this.renderMenuList();
+    const safeIndex = Math.min(this.currentIndex, this.drinksData.length - 1);
+    this.selectDrink(safeIndex, false);
   }
 
   // 1920x1080 自適應等比縮放
@@ -151,7 +200,7 @@ class MenuBoardApp2 {
   // 渲染右側 10 筆清單 (對齊 teatop2 的結構與階層)
   renderMenuList() {
     this.menuList.innerHTML = '';
-    DRINKS_DATA.forEach((item, index) => {
+    this.drinksData.forEach((item, index) => {
       const row = document.createElement('div');
       row.className = `menu-row row-${item.rank} ${item.theme}-theme`;
       row.dataset.index = index;
@@ -190,8 +239,9 @@ class MenuBoardApp2 {
 
   // 切換選中飲品 (套用 teatop2 的 Active 反白動態)
   selectDrink(index, animate = true) {
-    this.currentIndex = (index + DRINKS_DATA.length) % DRINKS_DATA.length;
-    const item = DRINKS_DATA[this.currentIndex];
+    if (!this.drinksData || this.drinksData.length === 0) return;
+    this.currentIndex = (index + this.drinksData.length) % this.drinksData.length;
+    const item = this.drinksData[this.currentIndex];
 
     // 更新右側 10 筆清單的 active 類別
     const rows = this.menuList.querySelectorAll('.menu-row');

@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEA TOP 第一味 - TOP 10 數位看板雲端管理後台</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --brand-orange: #EC6F09;
+      --brand-orange-hover: #D86204;
+      --brand-orange-light: #FFF4EC;
+      --brand-navy: #0C2F54;
+      --brand-navy-light: #1A3E66;
+      --bg-light: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --text-dark: #1F2937;
+      --text-muted: #6B7280;
+      --border-color: #E5E7EB;
+      --success: #10B981;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans TC', 'Montserrat', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding-bottom: 80px;
+    }
+
+    /* 頂部導航列 */
+    header.admin-header {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-logo {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .header-title-box h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--brand-navy);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-title-box p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cloud-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+
+    .cloud-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% { transform: scale(0.9); opacity: 0.8; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.8; }
+    }
+
+    /* 按鈕樣式 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-preview {
+      background: #FFFFFF;
+      color: var(--brand-navy);
+      border: 1px solid var(--border-color);
+    }
+    .btn-preview:hover {
+      background: #F9FAFB;
+      border-color: var(--brand-navy);
+    }
+
+    .btn-primary {
+      background: var(--brand-orange);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(236, 111, 9, 0.25);
+    }
+    .btn-primary:hover {
+      background: var(--brand-orange-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(236, 111, 9, 0.35);
+    }
+
+    .btn-secondary {
+      background: #E5E7EB;
+      color: #374151;
+    }
+    .btn-secondary:hover {
+      background: #D1D5DB;
+    }
+
+    .btn-danger-light {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+    .btn-danger-light:hover {
+      background: #FCD34D;
+    }
+
+    /* 主要容器 */
+    main.admin-main {
+      max-width: 1280px;
+      margin: 28px auto;
+      padding: 0 24px;
+    }
+
+    /* 區域選擇分頁列 */
+    .region-nav-card {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .region-tabs {
+      display: flex;
+      gap: 8px;
+    }
+
+    .region-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      background: #F3F4F6;
+      color: #4B5563;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .region-tab-btn:hover {
+      background: #E5E7EB;
+    }
+
+    .region-tab-btn.active {
+      background: var(--brand-orange);
+      color: #FFFFFF;
+      box-shadow: 0 3px 10px rgba(236, 111, 9, 0.25);
+    }
+
+    .region-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* 區域資訊與看板網址說明卡片 */
+    .region-banner {
+      background: linear-gradient(135deg, #0C2F54 0%, #1A3E66 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 24px 30px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(12, 47, 84, 0.15);
+    }
+
+    .banner-text h2 {
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .banner-text p {
+      font-size: 14px;
+      color: #CBD5E1;
+      margin-top: 6px;
+    }
+
+    .banner-url-box {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 8px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .banner-url-label {
+      font-size: 12px;
+      color: #F8FAFC;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .banner-url-code {
+      font-family: monospace;
+      font-size: 13px;
+      color: #FDE047;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 4px 10px;
+      border-radius: 4px;
+      max-width: 380px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-copy-url {
+      background: #FFFFFF;
+      color: var(--brand-navy);
+      padding: 6px 14px;
+      font-size: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      font-weight: 700;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .btn-copy-url:hover {
+      background: #F1F5F9;
+    }
+
+    /* 飲品列表表單 */
+    .drinks-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .drink-card {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 80px 90px 1fr 120px 180px 220px 80px;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .drink-card:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    /* 排名標籤 */
+    .rank-badge-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      border-radius: 10px;
+      color: #FFFFFF;
+      font-weight: 900;
+    }
+
+    .rank-badge-box.orange {
+      background: linear-gradient(135deg, #FF8A00 0%, #EC6F09 100%);
+    }
+
+    .rank-badge-box.navy {
+      background: linear-gradient(135deg, #1E4670 0%, #0C2F54 100%);
+    }
+
+    .rank-badge-box .top-label {
+      font-size: 10px;
+      letter-spacing: 1px;
+      opacity: 0.85;
+    }
+
+    .rank-badge-box .rank-num {
+      font-size: 26px;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    /* 品名欄位 */
+    .col-name {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--text-dark);
+      background: #FFFFFF;
+      transition: border-color 0.2s;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--brand-orange);
+      box-shadow: 0 0 0 3px rgba(236, 111, 9, 0.12);
+    }
+
+    .input-field.primary-name {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .input-field.eng-name {
+      font-size: 12px;
+      color: #4B5563;
+    }
+
+    /* 價格欄位 */
+    .col-price {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .price-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .price-currency {
+      position: absolute;
+      left: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--brand-orange);
+    }
+
+    .input-field.price-input {
+      padding-left: 26px;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--brand-orange);
+    }
+
+    /* 圖片挑選 */
+    .col-image {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .img-picker-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .thumb-preview {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      object-fit: contain;
+      background: #F9FAFB;
+    }
+
+    /* 標籤徽章勾選 */
+    .col-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .badge-checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .badge-checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    .badge-checkbox-item input[type="checkbox"] {
+      cursor: pointer;
+      accent-color: var(--brand-orange);
+    }
+
+    /* 排序與操作 */
+    .col-reorder {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .btn-reorder {
+      background: #F3F4F6;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      width: 32px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      color: #4B5563;
+      transition: background 0.15s;
+    }
+
+    .btn-reorder:hover:not(:disabled) {
+      background: #E5E7EB;
+      color: #111827;
+    }
+
+    .btn-reorder:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* 浮動儲存條 (底部固定) */
+    .floating-save-bar {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #FFFFFF;
+      padding: 14px 28px;
+      border-radius: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      z-index: 1000;
+    }
+
+    .save-status-text {
+      font-size: 14px;
+      color: #4B5563;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Toast 通知視窗 */
+    .toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: #0C2F54;
+      color: #FFFFFF;
+      padding: 16px 24px;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(-20px);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast.success {
+      border-left: 6px solid var(--success);
+    }
+
+    .toast.error {
+      border-left: 6px solid #EF4444;
+    }
+
+    /* 商品價格管理表格樣式 */
+    .price-matrix-card {
+      background: #FFFFFF;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 24px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .price-table th {
+      background: #F8FAFC;
+      color: var(--brand-navy);
+      font-weight: 800;
+      padding: 14px 16px;
+      border-bottom: 2px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .price-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .price-table tr:hover {
+      background: #F8FAFC;
+    }
+
+    .price-cell-input {
+      width: 86px;
+      padding: 7px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--brand-orange);
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .price-cell-input:focus {
+      outline: none;
+      border-color: var(--brand-orange);
+      box-shadow: 0 0 0 3px rgba(236, 111, 9, 0.15);
+      background: #FFF9F5;
+    }
+
+    .batch-price-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: #F1F5F9;
+      padding: 14px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      border: 1px solid var(--border-color);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 頂部導航列 -->
+  <header class="admin-header">
+    <div class="header-brand">
+      <img src="assets/images/logo.png" alt="TEA TOP 第一味" class="header-logo">
+      <div class="header-title-box">
+        <h1>TOP 10 數位看板雲端管理後台</h1>
+        <p>全台門市多區域即時同步系統 (Multi-Region Signage Manager)</p>
+      </div>
+    </div>
+
+    
+    <div class="header-nav-switch" style="display:flex; gap:10px; background:#F1F5F9; padding:4px; border-radius:8px; margin-right:auto; margin-left:24px;">
+      <button class="nav-switch-btn active" id="nav-signage" style="padding:6px 16px; border-radius:6px; border:none; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.1); font-weight:700; color:#0C2F54; cursor:pointer;">📺 看板區域配置</button>
+      <button class="nav-switch-btn" id="nav-catalog" style="padding:6px 16px; border-radius:6px; border:none; background:transparent; font-weight:700; color:#64748B; cursor:pointer;">📦 商品總庫管理</button>
+      <button class="nav-switch-btn" id="nav-pricing" style="padding:6px 16px; border-radius:6px; border:none; background:transparent; font-weight:700; color:#64748B; cursor:pointer;">🏷️ 商品價格管理</button>
+    </div>
+
+    <div class="header-actions">
+      <div class="cloud-status" id="cloud-status-badge">
+        <span class="cloud-dot"></span>
+        <span id="cloud-status-text">雲端連線正常 (teatop-top10)</span>
+      </div>
+
+      <button class="btn btn-preview" id="btn-open-preview">
+        👁️ 預覽目前看板
+      </button>
+
+      <button class="btn btn-primary" id="btn-save-top">
+        💾 儲存並即時發布
+      </button>
+    </div>
+  </header>
+
+  <!-- 主內容區 -->
+  <main class="admin-main">
+    <div id="view-signage">
+    
+    <!-- 區域切換分頁列 -->
+    <section class="region-nav-card">
+      <div class="region-tabs" id="region-tabs-container">
+        <!-- JS 動態生成區域按鈕 -->
+      </div>
+      <div class="region-actions">
+        <button class="btn btn-secondary" id="btn-clone-region" title="將當前分區的資料複製到其他區域">
+          📋 複製此區資料至...
+        </button>
+        <button class="btn btn-danger-light" id="btn-reset-region" title="還原至系統預設值">
+          ↺ 還原預設
+        </button>
+      </div>
+    </section>
+
+    <!-- 當前區域專用網址橫幅 -->
+    <section class="region-banner">
+      <div class="banner-text">
+        <h2 id="banner-region-title">📍 北區門市排行榜</h2>
+        <p id="banner-region-desc">台北、新北、基隆、桃園、新竹地區門市電子看板</p>
+      </div>
+      <div class="banner-url-box">
+        <span class="banner-url-label">門市機上盒專用網址：</span>
+        <code class="banner-url-code" id="banner-url-code">載入中...</code>
+        <button class="btn-copy-url" id="btn-copy-url">複製網址</button>
+      </div>
+    </section>
+
+    <!-- TOP 10 飲品編輯表單列表 -->
+    <section class="drinks-grid" id="drinks-container">
+      <!-- 由 JS 動態生成 10 張卡片 -->
+    </section>
+
+      </div>
+
+
+    <div id="view-pricing" style="display:none;">
+      <section class="region-banner" style="background: linear-gradient(135deg, #0C2F54 0%, #1E4670 100%);">
+        <div class="banner-text">
+          <h2>🏷️ 全台各區商品價格矩陣管理</h2>
+          <p>在此一覽並統一調整「各分區看板商品價格」與「商品總庫基準定價」，支援各區自訂價、批次快速調價與一鍵同步，發布後即時更新全台看板。</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-primary" id="btn-save-all-prices">💾 儲存並發布價格調整</button>
+        </div>
+      </section>
+
+      <!-- 批次調價工具列 -->
+      <div class="batch-price-bar">
+        <span style="font-weight:700; color:var(--brand-navy); font-size:13px;">⚡ 批次快速調價工具：</span>
+        <select id="batch-target-region" class="input-field" style="width:auto; padding:6px 12px; font-size:13px;">
+          <option value="all">全區門市 (北/中/南/特殊)</option>
+          <option value="north">北區門市</option>
+          <option value="central">中區門市</option>
+          <option value="south">南區門市</option>
+          <option value="special">商場/國道特殊門市</option>
+          <option value="catalog">商品總庫 (基準定價)</option>
+        </select>
+        <select id="batch-calc-op" class="input-field" style="width:auto; padding:6px 12px; font-size:13px;">
+          <option value="add">統一調漲 (+)</option>
+          <option value="sub">統一調降 (-)</option>
+          <option value="set">統一設為固定金額</option>
+        </select>
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="font-weight:700; color:var(--brand-orange);">$</span>
+          <input type="number" id="batch-price-val" class="input-field" value="5" style="width:80px; padding:6px 10px; font-weight:700; text-align:center;">
+        </div>
+        <button class="btn btn-secondary" id="btn-apply-batch-price" style="padding:6px 14px; font-size:13px;">套用試算</button>
+        <button class="btn btn-preview" id="btn-sync-catalog-to-all" style="padding:6px 14px; font-size:13px;">🔄 一鍵將總庫基準價套用至全區</button>
+      </div>
+
+      <!-- 價格矩陣表格 -->
+      <div class="price-matrix-card">
+        <table class="price-table" id="price-matrix-table">
+          <thead>
+            <tr>
+              <th style="width:50px; text-align:center;">圖片</th>
+              <th>飲品品名 (中文 / 英文)</th>
+              <th style="text-align:center;">商品總庫基準價</th>
+              <th style="text-align:center;">📍 北區門市</th>
+              <th style="text-align:center;">📍 中區門市</th>
+              <th style="text-align:center;">📍 南區門市</th>
+              <th style="text-align:center;">📍 特殊門市</th>
+              <th style="text-align:center; width:100px;">快速操作</th>
+            </tr>
+          </thead>
+          <tbody id="price-table-body">
+            <!-- JS 動態生成 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="view-catalog" style="display:none;">
+      <section class="region-banner" style="background: linear-gradient(135deg, #EC6F09 0%, #D86204 100%);">
+        <div class="banner-text">
+          <h2>📦 全域商品總庫</h2>
+          <p>統一管理所有飲品基本資料。修改此處不會直接影響看板，請至「看板配置」中從總庫挑選。</p>
+        </div>
+        <button class="btn btn-preview" id="btn-add-product" style="color: #EC6F09;">➕ 新增商品</button>
+      </section>
+      <section class="drinks-grid" id="catalog-container">
+        <!-- JS 動態生成商品列表 -->
+      </section>
+    </div>
+
+</main>
+
+  
+  <div class="modal-overlay" id="product-picker-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:#fff; width:90%; max-width:800px; border-radius:12px; max-height:85vh; display:flex; flex-direction:column; box-shadow:0 20px 40px rgba(0,0,0,0.2);">
+      <div style="padding:20px 24px; border-bottom:1px solid #E5E7EB; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:18px; color:#0C2F54;">從商品總庫挑選</h3>
+        <button id="btn-close-modal" style="background:transparent; border:none; font-size:24px; cursor:pointer; color:#6B7280;">&times;</button>
+      </div>
+      <div style="padding:16px 24px; border-bottom:1px solid #E5E7EB; display:flex; gap:12px;">
+        <input type="text" id="product-search" placeholder="搜尋飲品名稱..." style="flex:1; padding:10px 14px; border:1px solid #E5E7EB; border-radius:6px;">
+      </div>
+      <div id="modal-product-list" style="padding:12px 24px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:8px; background:#F4F6F9;">
+        <!-- JS 動態生成 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 浮動儲存條 -->
+  <div class="floating-save-bar">
+    <div class="save-status-text">
+      <span>已對當前區域進行編輯</span>
+      <span style="color: var(--text-muted);">|</span>
+      <span id="last-updated-time">最後儲存時間: 剛剛</span>
+    </div>
+    <button class="btn btn-primary" id="btn-save-bottom">
+      🚀 儲存並即時發布至全台看板
+    </button>
+  </div>
+
+  <!-- Toast 提示訊息 -->
+  <div class="toast" id="admin-toast">
+    <span id="toast-icon">✅</span>
+    <span id="toast-msg">已成功發布！全台門市看板已同步更新。</span>
+  </div>
+
+  <!-- 依賴腳本 -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="data/default_menus.js?v=1"></script>
+  <script src="firebase-config.js?v=1"></script>
+
+  <!-- 後台邏輯腳本 -->
+  <script>
+    class SignageAdmin {
+      constructor() {
+        this.currentRegionId = 'north';
+        this.regions = window.DEFAULT_REGIONS || [];
+        this.currentMenuData = null;
+        this.isDirty = false;
+
+        // DOM 元素
+        this.tabsContainer = document.getElementById('region-tabs-container');
+        this.drinksContainer = document.getElementById('drinks-container');
+        this.bannerTitle = document.getElementById('banner-region-title');
+        this.bannerDesc = document.getElementById('banner-region-desc');
+        this.bannerUrlCode = document.getElementById('banner-url-code');
+        this.btnCopyUrl = document.getElementById('btn-copy-url');
+        this.btnSaveTop = document.getElementById('btn-save-top');
+        this.btnSaveBottom = document.getElementById('btn-save-bottom');
+        this.btnOpenPreview = document.getElementById('btn-open-preview');
+        this.btnCloneRegion = document.getElementById('btn-clone-region');
+        this.btnResetRegion = document.getElementById('btn-reset-region');
+        this.lastUpdatedTime = document.getElementById('last-updated-time');
+        this.toastEl = document.getElementById('admin-toast');
+        this.toastMsg = document.getElementById('toast-msg');
+        this.toastIcon = document.getElementById('toast-icon');
+
+        this.products = [];
+        this.pickingRankIndex = null;
+        
+        // Product Catalog & Pricing DOM
+        this.navSignage = document.getElementById('nav-signage');
+        this.navCatalog = document.getElementById('nav-catalog');
+        this.navPricing = document.getElementById('nav-pricing');
+        this.viewSignage = document.getElementById('view-signage');
+        this.viewCatalog = document.getElementById('view-catalog');
+        this.viewPricing = document.getElementById('view-pricing');
+        this.catalogContainer = document.getElementById('catalog-container');
+        this.btnAddProduct = document.getElementById('btn-add-product');
+        this.priceTableBody = document.getElementById('price-table-body');
+        this.btnSaveAllPrices = document.getElementById('btn-save-all-prices');
+        this.btnApplyBatchPrice = document.getElementById('btn-apply-batch-price');
+        this.btnSyncCatalogToAll = document.getElementById('btn-sync-catalog-to-all');
+        this.batchTargetRegion = document.getElementById('batch-target-region');
+        this.batchCalcOp = document.getElementById('batch-calc-op');
+        this.batchPriceVal = document.getElementById('batch-price-val');
+        
+        this.allRegionMenus = {};
+        
+        // Modal DOM
+        this.modalOverlay = document.getElementById('product-picker-modal');
+        this.btnCloseModal = document.getElementById('btn-close-modal');
+        this.productList = document.getElementById('modal-product-list');
+        this.productSearch = document.getElementById('product-search');
+
+
+        this.init();
+      }
+
+      async init() {
+        this.renderRegionTabs();
+        this.bindGlobalEvents();
+        await this.loadRegionData(this.currentRegionId);
+
+        await this.loadProducts();
+        this.bindCatalogEvents();
+
+      }
+
+      // 渲染分區頁籤
+      renderRegionTabs() {
+        this.tabsContainer.innerHTML = '';
+        this.regions.forEach(reg => {
+          const btn = document.createElement('button');
+          btn.className = `region-tab-btn ${reg.id === this.currentRegionId ? 'active' : ''}`;
+          btn.dataset.id = reg.id;
+          btn.innerHTML = `<span>📍</span> ${reg.name}`;
+          btn.addEventListener('click', () => this.switchRegion(reg.id));
+          this.tabsContainer.appendChild(btn);
+        });
+      }
+
+      // 切換區域
+      async switchRegion(regionId) {
+        if (this.currentRegionId === regionId) return;
+        this.currentRegionId = regionId;
+        
+        // 更新 Tab 樣式
+        const tabs = this.tabsContainer.querySelectorAll('.region-tab-btn');
+        tabs.forEach(tab => {
+          tab.classList.toggle('active', tab.dataset.id === regionId);
+        });
+
+        await this.loadRegionData(regionId);
+      }
+
+      // 載入當前分區資料 (優先 Firestore，次為 Fallback)
+      async loadRegionData(regionId) {
+        this.drinksContainer.innerHTML = '<div style="text-align:center; padding: 40px; color:#6B7280;">正在載入菜單資料...</div>';
+        
+        const regionMeta = this.regions.find(r => r.id === regionId) || { name: regionId, desc: '' };
+        this.bannerTitle.textContent = `📍 ${regionMeta.name} 排行榜`;
+        this.bannerDesc.textContent = regionMeta.desc || '門市電子看板排行榜管理';
+
+        // 產生該區機上盒專用網址
+        const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+        const signageUrl = `${baseUrl}/index2.html?region=${regionId}`;
+        this.bannerUrlCode.textContent = signageUrl;
+
+        try {
+          let data = null;
+          if (window.teatopFirebase) {
+            data = await window.teatopFirebase.getRegionMenu(regionId);
+          }
+          if (!data || !data.drinks) {
+            data = (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION[regionId])
+              || (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION.north);
+          }
+
+          this.currentMenuData = JSON.parse(JSON.stringify(data));
+          if (this.currentMenuData.updatedAt) {
+            const timeStr = new Date(this.currentMenuData.updatedAt).toLocaleTimeString('zh-TW', { hour12: false });
+            this.lastUpdatedTime.textContent = `最後發布時間: ${timeStr}`;
+          }
+
+          this.renderDrinkCards();
+        } catch (err) {
+          console.error('載入區域資料失敗:', err);
+          this.showToast('載入失敗，已切換至離線預設資料', 'error');
+        }
+      }
+
+      // 渲染 10 款飲品表單卡片
+      renderDrinkCards() {
+        if (!this.currentMenuData || !this.currentMenuData.drinks) return;
+        this.drinksContainer.innerHTML = '';
+
+        this.currentMenuData.drinks.forEach((item, index) => {
+          const card = document.createElement('div');
+          card.className = 'drink-card';
+          card.dataset.index = index;
+
+          const isHot = item.badges.some(b => b.includes('badge_hot'));
+          const isFixedSugar = item.badges.some(b => b.includes('badge_fixed_sugar'));
+          const isNoCaffeine = item.badges.some(b => b.includes('badge_no_caffeine'));
+
+          const imagesOptions = (window.DEFAULT_HERO_IMAGES || []).map(img => {
+            const selected = item.heroImg === img.path ? 'selected' : '';
+            return `<option value="${img.path}" ${selected}>${img.name}</option>`;
+          }).join('');
+
+          card.innerHTML = `
+            <!-- 排名標籤 -->
+            <div class="rank-badge-box ${item.theme || (index < 5 ? 'orange' : 'navy')}">
+              <span class="top-label">TOP</span>
+              <span class="rank-num">${item.rank}</span>
+            </div>
+
+            
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <button class="btn btn-secondary btn-pick-product" data-index="" style="padding:4px 8px; font-size:11px;">🔄 從總庫挑選</button>
+            </div>
+            <!-- 品名輸入 (中文與英文) -->
+
+            <div class="col-name">
+              <div>
+                <label class="field-label">飲品中文名稱</label>
+                <input type="text" class="input-field primary-name" value="${item.name || ''}" data-field="name">
+              </div>
+              <div>
+                <label class="field-label">英文品名 (English Name)</label>
+                <input type="text" class="input-field eng-name" value="${item.engName || ''}" data-field="engName">
+              </div>
+            </div>
+
+            <!-- 價格 -->
+            <div class="col-price">
+              <label class="field-label">門市售價 (L)</label>
+              <div class="price-input-wrapper">
+                <span class="price-currency">$</span>
+                <input type="number" class="input-field price-input" value="${item.price || 0}" data-field="price">
+              </div>
+            </div>
+
+            <!-- 飲品大圖選擇 -->
+            <div class="col-image">
+              <label class="field-label">展示杯型圖</label>
+              <div class="img-picker-box">
+                <img src="${item.heroImg}" alt="預覽" class="thumb-preview" id="thumb-${index}">
+                <select class="input-field select-hero" data-field="heroImg" data-thumb-target="thumb-${index}">
+                  ${imagesOptions}
+                </select>
+              </div>
+            </div>
+
+            <!-- 特性標籤 (Badges) -->
+            <div class="col-badges">
+              <label class="field-label">特性標籤 (徽章)</label>
+              <div class="badge-checkbox-group">
+                <label class="badge-checkbox-item">
+                  <input type="checkbox" class="badge-cb" data-badge="hot" ${isHot ? 'checked' : ''}>
+                  <span>可做熱飲 ♨️</span>
+                </label>
+                <label class="badge-checkbox-item">
+                  <input type="checkbox" class="badge-cb" data-badge="fixed_sugar" ${isFixedSugar ? 'checked' : ''}>
+                  <span>甜度固定 🍬</span>
+                </label>
+                <label class="badge-checkbox-item">
+                  <input type="checkbox" class="badge-cb" data-badge="no_caffeine" ${isNoCaffeine ? 'checked' : ''}>
+                  <span>無咖啡因/固定 🌿</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- 順序微調 -->
+            <div class="col-reorder">
+              <label class="field-label" style="margin-bottom: 2px;">排序</label>
+              <button class="btn-reorder btn-move-up" ${index === 0 ? 'disabled' : ''} title="往前移一位">▲</button>
+              <button class="btn-reorder btn-move-down" ${index === this.currentMenuData.drinks.length - 1 ? 'disabled' : ''} title="往後移一位">▼</button>
+            </div>
+          `;
+
+          // 綁定卡片內表單更動監聽
+          this.bindCardEvents(card, index);
+
+          this.drinksContainer.appendChild(card);
+        });
+      
+        // 綁定挑選商品事件
+        this.drinksContainer.querySelectorAll('.btn-pick-product').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index, 10);
+            this.openProductPicker(index);
+          });
+        });
+      }
+
+
+      // 綁定單張卡片事件
+
+      bindCardEvents(card, index) {
+        const item = this.currentMenuData.drinks[index];
+
+        // 品名與價格輸入
+        const inputs = card.querySelectorAll('input[data-field]');
+        inputs.forEach(input => {
+          input.addEventListener('input', (e) => {
+            const field = e.target.dataset.field;
+            item[field] = field === 'price' ? Number(e.target.value) : e.target.value;
+          });
+        });
+
+        // 圖片下拉更換與縮圖連動
+        const selectHero = card.querySelector('.select-hero');
+        selectHero.addEventListener('change', (e) => {
+          item.heroImg = e.target.value;
+          const thumbId = e.target.dataset.thumbTarget;
+          const thumbImg = document.getElementById(thumbId);
+          if (thumbImg) thumbImg.src = e.target.value;
+        });
+
+        // 徽章 Checkbox 更動
+        const badgeCheckboxes = card.querySelectorAll('.badge-cb');
+        badgeCheckboxes.forEach(cb => {
+          cb.addEventListener('change', () => {
+            this.rebuildBadges(item, card);
+          });
+        });
+
+        // 排序按鈕
+        const btnUp = card.querySelector('.btn-move-up');
+        const btnDown = card.querySelector('.btn-move-down');
+        
+        btnUp.addEventListener('click', () => {
+          if (index > 0) {
+            this.swapDrinks(index, index - 1);
+          }
+        });
+
+        btnDown.addEventListener('click', () => {
+          if (index < this.currentMenuData.drinks.length - 1) {
+            this.swapDrinks(index, index + 1);
+          }
+        });
+      }
+
+      // 重建徽章陣列 (對齊橘色/深藍色適配圖示)
+      rebuildBadges(item, card) {
+        const isNavy = item.theme === 'navy' || parseInt(item.rank) > 5;
+        const badges = [];
+
+        const cbs = card.querySelectorAll('.badge-cb');
+        cbs.forEach(cb => {
+          if (cb.checked) {
+            const type = cb.dataset.badge;
+            if (type === 'hot') {
+              badges.push(isNavy ? 'assets/images/badges/badge_hot_navy.png?v=3' : 'assets/images/badges/badge_hot.png?v=3');
+            } else if (type === 'fixed_sugar') {
+              badges.push('assets/images/badges/badge_fixed_sugar.png?v=3');
+            } else if (type === 'no_caffeine') {
+              badges.push(isNavy ? 'assets/images/badges/badge_no_caffeine_hot_fixed_navy.png?v=3' : 'assets/images/badges/badge_no_caffeine_hot_fixed_orange.png?v=3');
+            }
+          }
+        });
+
+        item.badges = badges;
+      }
+
+      // 交換飲品順序並重新編碼排名
+      swapDrinks(fromIdx, toIdx) {
+        const temp = this.currentMenuData.drinks[fromIdx];
+        this.currentMenuData.drinks[fromIdx] = this.currentMenuData.drinks[toIdx];
+        this.currentMenuData.drinks[toIdx] = temp;
+
+        // 重新分配 rank (01~10) 與主題
+        this.currentMenuData.drinks.forEach((d, idx) => {
+          d.rank = String(idx + 1).padStart(2, '0');
+          d.theme = idx < 5 ? 'orange' : 'navy';
+        });
+
+        this.renderDrinkCards();
+      }
+
+      // 綁定全域按鈕
+
+
+      // ==========================
+      // 商品總庫邏輯
+      // ==========================
+      
+      switchNavTab(activeTab) {
+        const tabs = [
+          { id: 'signage', btn: this.navSignage, view: this.viewSignage },
+          { id: 'catalog', btn: this.navCatalog, view: this.viewCatalog },
+          { id: 'pricing', btn: this.navPricing, view: this.viewPricing }
+        ];
+
+        tabs.forEach(t => {
+          if (!t.btn || !t.view) return;
+          if (t.id === activeTab) {
+            t.btn.classList.add('active');
+            t.btn.style.background = '#fff';
+            t.btn.style.color = '#0C2F54';
+            t.btn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            t.view.style.display = 'block';
+          } else {
+            t.btn.classList.remove('active');
+            t.btn.style.background = 'transparent';
+            t.btn.style.color = '#64748B';
+            t.btn.style.boxShadow = 'none';
+            t.view.style.display = 'none';
+          }
+        });
+
+        const fb = document.querySelector('.floating-save-bar');
+        if (fb) {
+          fb.style.display = (activeTab === 'signage' && this.isDirty) ? 'flex' : 'none';
+        }
+
+        if (activeTab === 'pricing') {
+          this.loadAllRegionsForPricing();
+        }
+      }
+
+      bindCatalogEvents() {
+        this.navSignage.addEventListener('click', () => this.switchNavTab('signage'));
+        this.navCatalog.addEventListener('click', () => this.switchNavTab('catalog'));
+        if (this.navPricing) {
+          this.navPricing.addEventListener('click', () => this.switchNavTab('pricing'));
+        }
+        
+        this.btnAddProduct.addEventListener('click', () => this.addNewProduct());
+        
+        this.btnCloseModal.addEventListener('click', () => {
+          this.modalOverlay.style.display = 'none';
+        });
+        
+        this.productSearch.addEventListener('input', (e) => {
+          this.renderModalList(e.target.value);
+        });
+
+        // 價格管理相關事件
+        if (this.btnSaveAllPrices) {
+          this.btnSaveAllPrices.addEventListener('click', () => this.saveAllPrices());
+        }
+        if (this.btnApplyBatchPrice) {
+          this.btnApplyBatchPrice.addEventListener('click', () => this.applyBatchPrice());
+        }
+        if (this.btnSyncCatalogToAll) {
+          this.btnSyncCatalogToAll.addEventListener('click', () => this.syncCatalogToAllRegions());
+        }
+      }
+
+      async loadProducts() {
+        if(window.teatopFirebase) {
+          this.products = await window.teatopFirebase.getProducts();
+        } else {
+          this.products = window.DEFAULT_PRODUCTS || [];
+        }
+        this.renderCatalog();
+      }
+
+      renderCatalog() {
+        this.catalogContainer.innerHTML = '';
+        this.products.forEach((prod, index) => {
+          const card = document.createElement('div');
+          card.className = 'drink-card';
+          // Catalog cards share styles with drink-cards but fewer columns
+          card.style.gridTemplateColumns = '80px 1fr 120px 180px 220px 80px';
+          
+          const imagesOptions = (window.DEFAULT_HERO_IMAGES || []).map(img => {
+            return `<option value="${img.path}" ${prod.heroImg === img.path ? 'selected' : ''}>${img.name}</option>`;
+          }).join('');
+
+          card.innerHTML = `
+            <div class="rank-badge-box" style="background:#E5E7EB; color:#4B5563; font-size:12px;">ID:<br>${prod.id.replace('prod_','')}</div>
+            <div class="col-name">
+              <div>
+                <label class="field-label">飲品中文名稱</label>
+                <input type="text" class="input-field primary-name prod-field" value="${prod.name || ''}" data-id="${prod.id}" data-field="name">
+              </div>
+              <div>
+                <label class="field-label">英文品名</label>
+                <input type="text" class="input-field eng-name prod-field" value="${prod.engName || ''}" data-id="${prod.id}" data-field="engName">
+              </div>
+            </div>
+            <div class="col-price">
+              <label class="field-label">價格</label>
+              <div class="price-input-wrapper">
+                <span class="price-currency">$</span>
+                <input type="number" class="input-field price-input prod-field" value="${prod.price || 0}" data-id="${prod.id}" data-field="price">
+              </div>
+            </div>
+            <div class="col-image">
+              <label class="field-label">主視覺圖片</label>
+              <div class="img-picker-box">
+                <img src="${prod.heroImg || ''}" class="thumb-preview" id="prod-thumb-${prod.id}">
+                <select class="input-field prod-field" data-id="${prod.id}" data-field="heroImg" onchange="document.getElementById('prod-thumb-${prod.id}').src=this.value">
+                  ${imagesOptions}
+                </select>
+              </div>
+            </div>
+            <div class="col-badges">
+              <label class="field-label">支援標籤 (可複選)</label>
+              <div class="badge-checkbox-group">
+                ${(window.DEFAULT_BADGE_OPTIONS || []).map(b => {
+                  const checked = (prod.badges || []).some(pb => pb.includes(b.id) || (b.path && pb.includes(b.path.split('?')[0]))) ? 'checked' : '';
+                  return `<label class="badge-checkbox-item"><input type="checkbox" class="prod-badge-cb" data-id="${prod.id}" value="${b.path}" ${checked}> ${b.name}</label>`;
+                }).join('')}
+              </div>
+            </div>
+            <div class="col-reorder">
+              <button class="btn btn-primary btn-save-prod" data-id="${prod.id}" style="width:100%; padding:8px 0; font-size:12px;">儲存修改</button>
+              <button class="btn btn-danger-light btn-del-prod" data-id="${prod.id}" style="width:100%; padding:8px 0; margin-top:4px; font-size:12px;">刪除商品</button>
+            </div>
+          `;
+          this.catalogContainer.appendChild(card);
+        });
+        
+        // Bind prod events
+        this.catalogContainer.querySelectorAll('.btn-save-prod').forEach(btn => {
+          btn.addEventListener('click', (e) => this.saveProduct(e.target.dataset.id, e.target));
+        });
+        this.catalogContainer.querySelectorAll('.btn-del-prod').forEach(btn => {
+          btn.addEventListener('click', (e) => this.deleteProduct(e.target.dataset.id));
+        });
+      }
+
+      async saveProduct(id, btnTarget) {
+        const prod = this.products.find(p => p.id === id);
+        if(!prod) return;
+        
+        // gather data from inputs
+        const inputs = this.catalogContainer.querySelectorAll(`.prod-field[data-id="${id}"]`);
+        inputs.forEach(inp => {
+          const field = inp.dataset.field;
+          if(field === 'price') prod[field] = parseInt(inp.value, 10);
+          else prod[field] = inp.value;
+        });
+        
+        const checkboxes = this.catalogContainer.querySelectorAll(`.prod-badge-cb[data-id="${id}"]:checked`);
+        prod.badges = Array.from(checkboxes).map(cb => cb.value);
+        
+        if(window.teatopFirebase) {
+          const origText = btnTarget.innerText;
+          btnTarget.innerText = '儲存中...';
+          btnTarget.disabled = true;
+          
+          await window.teatopFirebase.saveProduct(prod);
+          this.showToast(`商品 ${prod.name} 已儲存`, 'success');
+          
+          btnTarget.innerText = origText;
+          btnTarget.disabled = false;
+        }
+      }
+      
+      async deleteProduct(id) {
+        if(!confirm('確定要刪除此商品？')) return;
+        if(window.teatopFirebase) {
+          await window.teatopFirebase.deleteProduct(id);
+        }
+        this.products = this.products.filter(p => p.id !== id);
+        this.renderCatalog();
+        this.showToast('商品已刪除', 'success');
+      }
+
+      addNewProduct() {
+        const newId = `prod_${Date.now()}`;
+        this.products.push({
+          id: newId,
+          name: '新商品',
+          engName: 'New Drink',
+          price: 50,
+          heroImg: 'assets/images/drinks/drink_1_hero.png',
+          badges: []
+        });
+        this.renderCatalog();
+        // scroll to bottom
+        setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 100);
+      }
+
+      // ==========================
+      // Modal Picker 邏輯
+      // ==========================
+      openProductPicker(rankIndex) {
+        this.pickingRankIndex = rankIndex;
+        this.modalOverlay.style.display = 'flex';
+        this.productSearch.value = '';
+        this.renderModalList();
+      }
+
+      renderModalList(filterStr = '') {
+        this.productList.innerHTML = '';
+        const lowerFilter = filterStr.toLowerCase();
+        
+        const filtered = this.products.filter(p => 
+          p.name.toLowerCase().includes(lowerFilter) || 
+          (p.engName && p.engName.toLowerCase().includes(lowerFilter))
+        );
+        
+        filtered.forEach(prod => {
+          const row = document.createElement('div');
+          row.style.display = 'flex';
+          row.style.alignItems = 'center';
+          row.style.gap = '16px';
+          row.style.padding = '12px 16px';
+          row.style.background = '#fff';
+          row.style.borderRadius = '8px';
+          row.style.border = '1px solid #E5E7EB';
+          row.style.cursor = 'pointer';
+          
+          row.innerHTML = `
+            <img src="${prod.heroImg}" style="width:40px; height:40px; object-fit:contain;">
+            <div style="flex:1;">
+              <div style="font-weight:700; color:#0C2F54;">${prod.name}</div>
+              <div style="font-size:12px; color:#6B7280;">$${prod.price} | ${prod.engName}</div>
+            </div>
+            <button class="btn btn-primary" style="padding:6px 12px;">選擇</button>
+          `;
+          
+          row.addEventListener('click', () => {
+            this.selectProductForRank(prod);
+          });
+          
+          this.productList.appendChild(row);
+        });
+      }
+
+      selectProductForRank(prod) {
+        this.modalOverlay.style.display = 'none';
+        if(this.pickingRankIndex === null || !this.currentMenuData) return;
+        
+        const target = this.currentMenuData.drinks[this.pickingRankIndex];
+        target.name = prod.name;
+        target.engName = prod.engName;
+        target.price = prod.price;
+        target.heroImg = prod.heroImg;
+        
+        const currentTheme = target.theme || 'orange';
+        target.badges = (prod.badges || []).map(badgePath => {
+           if (currentTheme === 'navy' && badgePath.includes('orange')) {
+               return badgePath.replace('orange', 'navy');
+           }
+           if (currentTheme === 'navy' && badgePath.includes('badge_hot.png')) {
+               return badgePath.replace('badge_hot.png', 'badge_hot_navy.png');
+           }
+           if (currentTheme === 'orange' && badgePath.includes('navy')) {
+               return badgePath.replace('navy', 'orange');
+           }
+           if (currentTheme === 'orange' && badgePath.includes('badge_hot_navy.png')) {
+               return badgePath.replace('badge_hot_navy.png', 'badge_hot.png');
+           }
+           return badgePath;
+        });
+        
+        this.isDirty = true;
+        this.renderDrinkCards();
+        this.showSaveBar();
+      }
+
+
+      // ==========================
+      // 商品價格管理矩陣邏輯
+      // ==========================
+
+      async loadAllRegionsForPricing() {
+        this.priceTableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px; color:#6B7280;">正在載入全台各分區價格矩陣...</td></tr>';
+        
+        try {
+          // 確保最新商品庫
+          if (window.teatopFirebase) {
+            this.products = await window.teatopFirebase.getProducts();
+          } else {
+            this.products = window.DEFAULT_PRODUCTS || [];
+          }
+
+          // 載入所有分區資料
+          for (const reg of this.regions) {
+            let data = null;
+            if (window.teatopFirebase) {
+              data = await window.teatopFirebase.getRegionMenu(reg.id);
+            }
+            if (!data || !data.drinks) {
+              data = (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION[reg.id])
+                || (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION.north);
+            }
+            this.allRegionMenus[reg.id] = JSON.parse(JSON.stringify(data));
+          }
+
+          this.renderPriceMatrix();
+        } catch (err) {
+          console.error('載入各區價格失敗:', err);
+          this.showToast('載入全區價格失敗，請檢查網路連線', 'error');
+        }
+      }
+
+      renderPriceMatrix() {
+        if (!this.products || this.products.length === 0) {
+          this.priceTableBody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:30px;">尚無商品資料</td></tr>';
+          return;
+        }
+
+        this.priceTableBody.innerHTML = '';
+
+        this.products.forEach(prod => {
+          const row = document.createElement('tr');
+          row.dataset.prodId = prod.id;
+          row.dataset.prodName = prod.name;
+
+          // 取得此商品在各分區目前的價格 (若分區看板有此商品則取看板價，否則預設為總庫基準價)
+          const regionPrices = {};
+          this.regions.forEach(reg => {
+            const menu = this.allRegionMenus[reg.id];
+            if (menu && menu.drinks) {
+              const drink = menu.drinks.find(d => d.name === prod.name);
+              regionPrices[reg.id] = drink ? drink.price : (prod.price || 0);
+            } else {
+              regionPrices[reg.id] = prod.price || 0;
+            }
+          });
+
+          row.innerHTML = `
+            <td style="text-align:center;">
+              <img src="${prod.heroImg || ''}" style="width:38px; height:38px; object-fit:contain; border-radius:6px; background:#F8FAFC; border:1px solid #E5E7EB;">
+            </td>
+            <td>
+              <div style="font-weight:700; color:var(--brand-navy); font-size:15px;">${prod.name}</div>
+              <div style="font-size:12px; color:#6B7280;">${prod.engName || ''}</div>
+            </td>
+            <td style="text-align:center;">
+              <div style="display:flex; justify-content:center; align-items:center;">
+                <span style="color:#6B7280; font-weight:700; margin-right:3px;">$</span>
+                <input type="number" class="price-cell-input matrix-catalog-price" data-prod-id="${prod.id}" value="${prod.price || 0}">
+              </div>
+            </td>
+            ${this.regions.map(reg => `
+              <td style="text-align:center;">
+                <div style="display:flex; justify-content:center; align-items:center;">
+                  <span style="color:#6B7280; font-weight:700; margin-right:3px;">$</span>
+                  <input type="number" class="price-cell-input matrix-region-price" data-reg-id="${reg.id}" data-prod-name="${prod.name}" value="${regionPrices[reg.id]}">
+                </div>
+              </td>
+            `).join('')}
+            <td style="text-align:center;">
+              <button class="btn btn-preview btn-sync-row" data-prod-id="${prod.id}" style="padding:5px 10px; font-size:11px; white-space:nowrap;">總庫價推播</button>
+            </td>
+          `;
+
+          this.priceTableBody.appendChild(row);
+        });
+
+        // 綁定行內「總庫價推播」按鈕：將該商品總庫價一鍵填入所有分區輸入框
+        this.priceTableBody.querySelectorAll('.btn-sync-row').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const pId = e.target.dataset.prodId;
+            const tr = e.target.closest('tr');
+            const catalogInp = tr.querySelector('.matrix-catalog-price');
+            const baseVal = parseInt(catalogInp.value, 10) || 0;
+            tr.querySelectorAll('.matrix-region-price').forEach(inp => {
+              inp.value = baseVal;
+            });
+            this.showToast(`已將商品基準價 $${baseVal} 填入各區`, 'success');
+          });
+        });
+      }
+
+      applyBatchPrice() {
+        const target = this.batchTargetRegion.value;
+        const op = this.batchCalcOp.value;
+        const delta = parseInt(this.batchPriceVal.value, 10) || 0;
+
+        const rows = this.priceTableBody.querySelectorAll('tr');
+        let count = 0;
+
+        rows.forEach(tr => {
+          // 針對總庫
+          if (target === 'all' || target === 'catalog') {
+            const catInp = tr.querySelector('.matrix-catalog-price');
+            if (catInp) {
+              let cur = parseInt(catInp.value, 10) || 0;
+              if (op === 'add') cur += delta;
+              else if (op === 'sub') cur = Math.max(0, cur - delta);
+              else if (op === 'set') cur = delta;
+              catInp.value = cur;
+              count++;
+            }
+          }
+
+          // 針對分區
+          const regInputs = tr.querySelectorAll('.matrix-region-price');
+          regInputs.forEach(inp => {
+            const regId = inp.dataset.regId;
+            if (target === 'all' || target === regId) {
+              let cur = parseInt(inp.value, 10) || 0;
+              if (op === 'add') cur += delta;
+              else if (op === 'sub') cur = Math.max(0, cur - delta);
+              else if (op === 'set') cur = delta;
+              inp.value = cur;
+              count++;
+            }
+          });
+        });
+
+        this.showToast(`批次試算完成，已調整 ${count} 個價格欄位，請檢查後點擊儲存！`, 'success');
+      }
+
+      syncCatalogToAllRegions() {
+        const rows = this.priceTableBody.querySelectorAll('tr');
+        rows.forEach(tr => {
+          const catInp = tr.querySelector('.matrix-catalog-price');
+          if (catInp) {
+            const baseVal = parseInt(catInp.value, 10) || 0;
+            tr.querySelectorAll('.matrix-region-price').forEach(inp => {
+              inp.value = baseVal;
+            });
+          }
+        });
+        this.showToast('已將全品項總庫基準價同步填入各分區，請確認後點擊儲存！', 'success');
+      }
+
+      async saveAllPrices() {
+        try {
+          this.btnSaveAllPrices.disabled = true;
+          this.btnSaveAllPrices.textContent = '全區價格儲存發布中...';
+
+          const rows = this.priceTableBody.querySelectorAll('tr');
+
+          // 1. 更新並儲存總庫商品價格
+          for (const tr of rows) {
+            const pId = tr.dataset.prodId;
+            const catInp = tr.querySelector('.matrix-catalog-price');
+            if (catInp) {
+              const newPrice = parseInt(catInp.value, 10) || 0;
+              const prod = this.products.find(p => p.id === pId);
+              if (prod && prod.price !== newPrice) {
+                prod.price = newPrice;
+                if (window.teatopFirebase) {
+                  await window.teatopFirebase.saveProduct(prod);
+                }
+              }
+            }
+          }
+
+          // 2. 更新並發布各分區排行榜菜單價格
+          for (const reg of this.regions) {
+            const menu = this.allRegionMenus[reg.id];
+            if (menu && menu.drinks) {
+              let regionChanged = false;
+
+              rows.forEach(tr => {
+                const prodName = tr.dataset.prodName;
+                const regInp = tr.querySelector(`.matrix-region-price[data-reg-id="${reg.id}"]`);
+                if (regInp) {
+                  const newPrice = parseInt(regInp.value, 10) || 0;
+                  const drink = menu.drinks.find(d => d.name === prodName);
+                  if (drink && drink.price !== newPrice) {
+                    drink.price = newPrice;
+                    regionChanged = true;
+                  }
+                }
+              });
+
+              if (regionChanged || true) { // 確保全區更新時間戳與雲端同步
+                if (window.teatopFirebase) {
+                  await window.teatopFirebase.saveRegionMenu(reg.id, menu);
+                }
+              }
+            }
+          }
+
+          // 如果當前在區域看板分頁，也更新當前區域的資料
+          if (this.currentRegionId && this.allRegionMenus[this.currentRegionId]) {
+            this.currentMenuData = JSON.parse(JSON.stringify(this.allRegionMenus[this.currentRegionId]));
+            this.renderDrinkCards();
+          }
+
+          this.showToast('✅ 全台各區與商品總庫價格已成功發布！全台看板同步完成。', 'success');
+        } catch (err) {
+          console.error('儲存價格失敗:', err);
+          this.showToast(`儲存價格失敗: ${err.message}`, 'error');
+        } finally {
+          this.btnSaveAllPrices.disabled = false;
+          this.btnSaveAllPrices.innerHTML = '💾 儲存並發布價格調整';
+        }
+      }
+
+      bindGlobalEvents() {
+        // 複製網址
+        this.btnCopyUrl.addEventListener('click', () => {
+          const url = this.bannerUrlCode.textContent;
+          navigator.clipboard.writeText(url).then(() => {
+            this.showToast('機上盒專用網址已複製到剪貼簿！', 'success');
+          });
+        });
+
+        // 預覽看板
+        this.btnOpenPreview.addEventListener('click', () => {
+          window.open(`index2.html?region=${this.currentRegionId}`, '_blank');
+        });
+
+        // 儲存發布 (頂部與底部按鈕)
+        this.btnSaveTop.addEventListener('click', () => this.saveAndPublish());
+        this.btnSaveBottom.addEventListener('click', () => this.saveAndPublish());
+
+        // 複製此區至其他區域
+        this.btnCloneRegion.addEventListener('click', () => {
+          const targetRegions = this.regions.filter(r => r.id !== this.currentRegionId);
+          const targetNames = targetRegions.map((r, i) => `${i + 1}. ${r.name} (${r.id})`).join('\n');
+          const choice = prompt(`請輸入要複製到的區域編號：\n${targetNames}`);
+          
+          if (choice) {
+            const idx = parseInt(choice) - 1;
+            if (targetRegions[idx]) {
+              const target = targetRegions[idx];
+              if (confirm(`確定要將【${this.bannerTitle.textContent}】的品項與價格完整複製覆蓋至【${target.name}】嗎？`)) {
+                this.cloneToRegion(target.id);
+              }
+            } else {
+              alert('無效的選項！');
+            }
+          }
+        });
+
+        // 還原預設值
+        this.btnResetRegion.addEventListener('click', () => {
+          if (confirm(`確定要將【${this.bannerTitle.textContent}】還原為系統初始預設值嗎？`)) {
+            const fallback = (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION[this.currentRegionId])
+              || (window.DEFAULT_MENUS_BY_REGION && window.DEFAULT_MENUS_BY_REGION.north);
+            this.currentMenuData = JSON.parse(JSON.stringify(fallback));
+            this.renderDrinkCards();
+            this.showToast('已還原為初始預設值，請記得點擊「儲存並即時發布」！', 'success');
+          }
+        });
+      }
+
+      // 執行複製至指定區域
+      async cloneToRegion(targetRegionId) {
+        try {
+          const clonedData = JSON.parse(JSON.stringify(this.currentMenuData));
+          clonedData.regionId = targetRegionId;
+          const targetMeta = this.regions.find(r => r.id === targetRegionId);
+          if (targetMeta) clonedData.regionName = targetMeta.name;
+
+          if (window.teatopFirebase) {
+            await window.teatopFirebase.saveRegionMenu(targetRegionId, clonedData);
+            this.showToast(`已成功複製並發布至【${clonedData.regionName}】！`, 'success');
+          }
+        } catch (err) {
+          console.error('複製失敗:', err);
+          this.showToast('複製失敗，請檢查連線狀態', 'error');
+        }
+      }
+
+      // 儲存並發布至 Firebase
+      async saveAndPublish() {
+        try {
+          this.btnSaveTop.disabled = true;
+          this.btnSaveBottom.disabled = true;
+          this.btnSaveTop.textContent = '發布中...';
+
+          if (window.teatopFirebase) {
+            await window.teatopFirebase.saveRegionMenu(this.currentRegionId, this.currentMenuData);
+            const now = new Date().toLocaleTimeString('zh-TW', { hour12: false });
+            this.lastUpdatedTime.textContent = `最後發布時間: ${now}`;
+            this.showToast(`已成功發布至【${this.bannerTitle.textContent}】！全台該區看板秒級同步完成。`, 'success');
+          } else {
+            throw new Error('Firebase 服務尚未準備就緒');
+          }
+        } catch (err) {
+          console.error('發布失敗:', err);
+          this.showToast(`發布失敗: ${err.message}`, 'error');
+        } finally {
+          this.btnSaveTop.disabled = false;
+          this.btnSaveBottom.disabled = false;
+          this.btnSaveTop.innerHTML = '💾 儲存並即時發布';
+        }
+      }
+
+      // Toast 氣泡提示
+      showToast(msg, type = 'success') {
+        this.toastMsg.textContent = msg;
+        this.toastIcon.textContent = type === 'success' ? '✅' : '❌';
+        this.toastEl.className = `toast show ${type}`;
+
+        setTimeout(() => {
+          this.toastEl.classList.remove('show');
+        }, 3500);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.adminApp = new SignageAdmin();
+    });
+  </script>
+</body>
+</html>

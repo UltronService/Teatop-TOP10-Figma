@@ -1,0 +1,36 @@
+﻿# Dependencies
+node_modules/
+admin-ui/node_modules/
+
+# Production build artifacts
+dist/
+admin-ui/dist/
+dist-ssr/
+
+# Environment and Local settings
+.env
+.env.local
+*.local
+
+# Python / Temp scripts
+__pycache__/
+*.pyc
+fix.py
+update_html.py
+inject_js.py
+inject_js2.py
+temp_script.js
+scratch_teatop2*
+
+# OS Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*

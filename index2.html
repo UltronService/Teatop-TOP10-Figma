@@ -78,6 +78,13 @@
     </div>
   </div>
 
-  <script src="app2.js?v=3"></script>
+  <!-- Firebase SDK (Compat 支援所有機上盒與瀏覽器) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <!-- 本地預設與備援資料 (保證離線不白屏) -->
+  <script src="data/default_menus.js?v=1"></script>
+  <!-- Firebase 設定與資料層 -->
+  <script src="firebase-config.js?v=1"></script>
+  <script src="app2.js?v=4"></script>
 </body>
 </html>
