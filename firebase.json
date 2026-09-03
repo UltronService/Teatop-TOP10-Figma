@@ -1,8 +1,23 @@
-{
+﻿{
   "firestore": {
     "database": "(default)",
     "location": "asia-east1",
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "firestore.rules",
+      "firestore.indexes.json",
+      "**/.*",
+      "**/node_modules/**",
+      "admin-ui/**",
+      "scripts/**",
+      "*.py",
+      "*.md"
+    ]
   }
 }

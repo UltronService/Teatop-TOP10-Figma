@@ -1,19 +1,34 @@
 ﻿# TEA TOP 第一味 - TOP 10 數位電子看板與雲端管理系統
-> **Version 1.0.0** | High-Fidelity Digital Signage & Cloud CMS
+> **Version 1.0.1** | High-Fidelity Digital Signage & Cloud CMS
 
 本專案為 **TEA TOP 第一味** 打造之門市專用「TOP 10 數位電子看板」與「雲端視覺化管理後台」。基於 Figma 設計稿進行 1:1 像素級高保真切版，搭載 1920x1080 Full HD 智能等比縮放機制，並整合 Firebase Firestore 實現跨分區菜單即時推播與離線容錯防白屏機制。
 
 ---
 
-## 📌 系統預覽與存取端點 (Endpoints)
+## 🌐 雲端正式發布端點 (Online Production Endpoints)
 
-| 系統模組 | 本地服務網址 | 說明 |
-| :--- | :--- | :--- |
-| **數位電子看板 (電視盒專用)** | `http://localhost:8085/index2.html` | 1920x1080 數位看板端，支援平滑輪播與雲端即時同步 |
-| **數位看板 (北區門市)** | `http://localhost:8085/index2.html?region=north` | 北區門市專屬 TOP 10 菜單與定價 |
-| **數位看板 (中區門市)** | `http://localhost:8085/index2.html?region=central` | 中區門市專屬 TOP 10 菜單與定價 |
-| **數位看板 (南區門市)** | `http://localhost:8085/index2.html?region=south` | 南區門市專屬 TOP 10 菜單與定價 |
-| **雲端管理後台 (v0 UI)** | `http://localhost:8080/admin-v0.html` | 視覺化管理介面，支援即時編輯、排序、圖片上傳與發布 |
+### 1. Google Firebase Hosting (全球 CDN 加速)
+* 📺 **數位電子看板 (首頁)**: [https://teatop-top10.web.app/index2.html](https://teatop-top10.web.app/index2.html)
+* 📍 **分區看板 (北區門市)**: [https://teatop-top10.web.app/index2.html?region=north](https://teatop-top10.web.app/index2.html?region=north)
+* 📍 **分區看板 (中區門市)**: [https://teatop-top10.web.app/index2.html?region=central](https://teatop-top10.web.app/index2.html?region=central)
+* 📍 **分區看板 (南區門市)**: [https://teatop-top10.web.app/index2.html?region=south](https://teatop-top10.web.app/index2.html?region=south)
+* 🛠️ **雲端管理後台 (v0 UI)**: [https://teatop-top10.web.app/admin-v0.html](https://teatop-top10.web.app/admin-v0.html)
+
+### 2. GitHub Pages (靜態託管備援)
+* 📺 **數位電子看板**: [https://ultronservice.github.io/Teatop-TOP10-Figma/index2.html](https://ultronservice.github.io/Teatop-TOP10-Figma/index2.html)
+* 🛠️ **雲端管理後台**: [https://ultronservice.github.io/Teatop-TOP10-Figma/admin-v0.html](https://ultronservice.github.io/Teatop-TOP10-Figma/admin-v0.html)
+
+---
+
+## 📌 本地開發與區域網路存取 (Local & LAN)
+
+| 系統模組 | 本地服務網址 | 區域網路 (Wi-Fi/電視盒) | 說明 |
+| :--- | :--- | :--- | :--- |
+| **數位電子看板 (首頁)** | `http://localhost:8085/index2.html` | `http://192.168.1.184:8085/index2.html` | 1920x1080 數位看板端，支援平滑輪播與雲端即時同步 |
+| **數位看板 (北區門市)** | `http://localhost:8085/index2.html?region=north` | `http://192.168.1.184:8085/index2.html?region=north` | 北區門市專屬 TOP 10 菜單與定價 |
+| **數位看板 (中區門市)** | `http://localhost:8085/index2.html?region=central` | `http://192.168.1.184:8085/index2.html?region=central` | 中區門市專屬 TOP 10 菜單與定價 |
+| **數位看板 (南區門市)** | `http://localhost:8085/index2.html?region=south` | `http://192.168.1.184:8085/index2.html?region=south` | 南區門市專屬 TOP 10 菜單與定價 |
+| **雲端管理後台 (v0 UI)** | `http://localhost:8080/admin-v0.html` | `http://192.168.1.184:8080/admin-v0.html` | 視覺化管理介面，支援即時編輯、排序、圖片上傳與發布 |
 
 ---
 
@@ -72,6 +87,9 @@ python -m http.server 8085
 
 ```text
 Teatop TOP10 Figma/
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml# GitHub Pages 自動部屬 CI/CD 工作流
 ├── index2.html             # [主要] TOP 10 數位電子看板展示主頁 (v2 架構)
 ├── app2.js                 # [主要] 看板自適應縮放、輪播控制與雲端監聽邏輯
 ├── styles2.css             # [主要] 數位看板高保真 Figma 樣式
@@ -82,7 +100,7 @@ Teatop TOP10 Figma/
 ├── assets/                 # 品牌標誌、飲品透明背景圖、背景紋理等素材
 ├── admin.html              # 備用純 HTML/CSS 管理後台版本
 ├── admin-ui/               # Vite + React 管理後台模組原始碼
-├── firebase.json           # Firebase Hosting 與環境配置檔
+├── firebase.json           # Firebase Hosting 與 Firestore 配置檔
 ├── firestore.rules         # Firestore 安全規則
 ├── firestore.indexes.json  # Firestore 索引配置
 └── .gitignore              # Git 排除清單 (排除 node_modules 等建置產物)
@@ -92,9 +110,13 @@ Teatop TOP10 Figma/
 
 ## 🏷️ 版本歷史 (Changelog)
 
+### `v1.0.1` - 2026-09-03
+* 🚀 **雲端發布**：正式同步部署至 **Firebase Hosting** (`teatop-top10.web.app`) 與 **GitHub Pages**。
+* ⚙️ **自動化 CI/CD**：建立 `.github/workflows/deploy-pages.yml` 支援推送自動部屬。
+* 📝 **文件擴充**：補齊公網網址、分區端點與區域網路測試資訊。
+
 ### `v1.0.0` - 2026-09-03
 * ✨ **新增**：`index2.html` 數位電子看板高保真版，支援 1920x1080 智慧等比縮放與平滑輪播。
 * ✨ **新增**：`admin-v0.html` 現代化雲端視覺化管理後台，具備分區菜單編輯、圖片預覽與即時推送功能。
 * ⚡ **架構升級**：整合 Firebase Firestore 雲端同步與 `data/default_menus.js` 離線容錯雙層架構，達成門市零延遲開機與斷網防白屏保護。
 * 🌐 **多區支援**：支援 URL 參數分區切換（`?region=north|central|south|demo`）。
-* 📝 **文件完善**：建立全系統規格說明文件與本地端運行指南。
