@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TEA TOP UAT 測試面板</title>
+  <!-- 加上時間戳強制清除快取 -->
+  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@700;800;900&family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Noto+Sans+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* UAT 面板專屬樣式 */
+    .uat-panel {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 320px;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      z-index: 9999;
+      font-family: 'Noto Sans TC', sans-serif;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .uat-panel h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #FFCC00;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 10px;
+    }
+    .uat-group {
+      margin-bottom: 15px;
+    }
+    .uat-group label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    .uat-group input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+    }
+    .uat-group .value-display {
+      color: #00FF66;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    .toggle-switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .uat-btn {
+      width: 100%;
+      padding: 10px;
+      background: #EE5A00;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .uat-btn:hover {
+      background: #FF7315;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UAT 控制面板 -->
+  <div class="uat-panel">
+    <h2>⚙️ 視覺動態 UAT 控制台</h2>
+    
+    <div style="font-size: 12px; color: #aaa; margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 8px;">
+      💡 可個別開啟/關閉或調整各項特效參數
+    </div>
+
+    <!-- 模組 1: Slide-out Selection 滑出式選取 -->
+    <div class="uat-group" style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; margin-bottom: 10px;">
+      <div style="color: #FF9933; font-weight: bold; font-size: 13px; margin-bottom: 6px;">1. 滑出式選取 (Slide-out Selection)</div>
+      <label>向左滑出距離 (Shift-X) <span class="value-display" id="val-shift">-12px</span></label>
+      <input type="range" id="param-shift" min="-40" max="0" value="-12">
+      
+      <label style="margin-top: 6px;">過渡動畫速度 (Transition) <span class="value-display" id="val-trans">0.25s</span></label>
+      <input type="range" id="param-trans" min="0.05" max="1.5" step="0.05" value="0.25">
+    </div>
+
+    <!-- 模組 2: Active Row Highlight 選中行高亮 -->
+    <div class="uat-group" style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; margin-bottom: 10px;">
+      <div style="color: #FF9933; font-weight: bold; font-size: 13px; margin-bottom: 6px;">2. 選中行高亮 (Active Highlight)</div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-highlight" checked>
+        <span>背景漸層聚光燈 & 左側發光白條</span>
+      </label>
+    </div>
+
+    <!-- 模組 3: Bouncing Indicator 彈跳指示器 -->
+    <div class="uat-group" style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; margin-bottom: 10px;">
+      <div style="color: #FF9933; font-weight: bold; font-size: 13px; margin-bottom: 6px;">3. 彈跳指示器 (Bouncing Indicator)</div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-arrow" checked>
+        <span>顯示右側指引箭頭 (◀)</span>
+      </label>
+      <label style="margin-top: 6px;">箭頭跳動速度 (Bounce Speed) <span class="value-display" id="val-bounce">1s</span></label>
+      <input type="range" id="param-bounce" min="0.2" max="2" step="0.1" value="1">
+    </div>
+
+    <!-- 模組 4: 其他設定 -->
+    <div class="uat-group" style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; margin-bottom: 10px;">
+      <div style="color: #FF9933; font-weight: bold; font-size: 13px; margin-bottom: 6px;">4. 看板動態與輪播</div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-hero" checked>
+        <span>左側動態飲料展示區 (Hero Section)</span>
+      </label>
+      <label style="margin-top: 6px;">輪播停留時間 (Interval) <span class="value-display" id="val-interval">5s</span></label>
+      <input type="range" id="param-interval" min="1" max="15" step="1" value="5">
+    </div>
+
+    <button class="uat-btn" id="btn-copy">📋 複製當前最佳參數報告</button>
+  </div>
+
+  <!-- 1920x1080 視窗縮放容器 -->
+  <div id="screen-scaler" class="screen-scaler">
+    <div id="app" class="app-container">
+      
+      <!-- ================= 左側展示區 ================= -->
+      <section class="hero-section" id="hero-section">
+        <div class="circle-decor circle-1"></div>
+        <div class="circle-decor circle-2"></div>
+        <div class="circle-decor circle-3"></div>
+
+        <header class="hero-header">
+          <img src="assets/images/logo.png" alt="TEA TOP 第一味" class="brand-logo">
+        </header>
+
+        <div class="hero-content" id="uat-hero-content">
+          <div class="hero-image-wrapper">
+            <img id="hero-drink-img" src="assets/images/drinks/drink_1_hero.png" alt="飲品展示" class="hero-drink-img">
+            <div class="drink-glow"></div>
+          </div>
+
+          <div class="hero-info" id="hero-info">
+            <div class="hero-rank-tag" id="hero-rank-tag">TOP 01</div>
+            <h1 class="hero-title" id="hero-title">招牌高山青</h1>
+            <p class="hero-eng-title" id="hero-eng-title">Signature Alpine Green Tea</p>
+            
+            <div class="hero-footer-meta">
+              <div class="hero-price-wrapper">
+                <span class="hero-currency">$</span>
+                <span class="hero-price" id="hero-price">40</span>
+                <span class="hero-size-badge">L</span>
+              </div>
+              <div class="hero-badges" id="hero-badges"></div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="hero-controller" id="uat-hero-controller">
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+          <div class="controller-info">
+            <span class="play-status" id="play-status">
+              <span class="pulse-dot"></span> 自動輪播中 (5s)
+            </span>
+            <span class="remote-hint">遙控器: ▲ ▼ 切換 / OK 暫停</span>
+          </div>
+        </footer>
+      </section>
+
+      <!-- ================= 右側 Top 10 ================= -->
+      <aside class="menu-section" id="menu-section">
+        <div class="menu-list" id="menu-list"></div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- 在載入 app.js 之前定義全域的 uat 狀態 -->
+  <script>
+    window.isUAT = true;
+  </script>
+  <script src="app.js"></script>
+  
+  <script>
+    // UAT 控制面板邏輯
+    document.addEventListener('DOMContentLoaded', () => {
+      const root = document.documentElement;
+      
+      const toggleHero = document.getElementById('toggle-hero');
+      const toggleHighlight = document.getElementById('toggle-highlight');
+      const toggleArrow = document.getElementById('toggle-arrow');
+      
+      const paramShift = document.getElementById('param-shift');
+      const paramTrans = document.getElementById('param-trans');
+      const paramBounce = document.getElementById('param-bounce');
+      const paramInterval = document.getElementById('param-interval');
+      
+      // 更新數值顯示與 CSS 變數
+      function updateCSSVar(name, value, unit, displayId) {
+        root.style.setProperty(name, value + unit);
+        if (displayId) {
+          document.getElementById(displayId).textContent = value + unit;
+        }
+      }
+
+      // 1. 滑出式選取 (Slide-out Selection) 控制
+      paramShift.addEventListener('input', (e) => {
+        updateCSSVar('--active-shift-x', e.target.value, 'px', 'val-shift');
+      });
+
+      paramTrans.addEventListener('input', (e) => {
+        updateCSSVar('--transition-speed', e.target.value, 's', 'val-trans');
+      });
+
+      // 2. 選中行高亮 (Active Highlight) 控制
+      toggleHighlight.addEventListener('change', (e) => {
+        const isHighlightOn = e.target.checked;
+        if (isHighlightOn) {
+          root.style.setProperty('--active-bar-display', 'block');
+          root.style.setProperty('--active-gradient-orange', 'linear-gradient(90deg, #FF7315 0%, #FA6400 100%)');
+          root.style.setProperty('--active-gradient-navy', 'linear-gradient(90deg, #0e4b7a 0%, #00385C 100%)');
+        } else {
+          root.style.setProperty('--active-bar-display', 'none');
+          root.style.setProperty('--active-gradient-orange', 'transparent');
+          root.style.setProperty('--active-gradient-navy', 'transparent');
+        }
+      });
+
+      // 3. 彈跳指示器 (Bouncing Indicator) 控制
+      toggleArrow.addEventListener('change', (e) => {
+        root.style.setProperty('--active-arrow-display', e.target.checked ? 'block' : 'none');
+      });
+
+      paramBounce.addEventListener('input', (e) => {
+        updateCSSVar('--bounce-speed', e.target.value, 's', 'val-bounce');
+      });
+
+      // 4. 左側動態區與輪播控制
+      toggleHero.addEventListener('change', (e) => {
+        document.getElementById('uat-hero-content').style.display = e.target.checked ? 'flex' : 'none';
+        document.getElementById('uat-hero-controller').style.display = e.target.checked ? 'block' : 'none';
+      });
+
+      paramInterval.addEventListener('input', (e) => {
+        const val = e.target.value;
+        document.getElementById('val-interval').textContent = val + 's';
+        if (window.app) {
+          window.app.autoPlayInterval = parseInt(val) * 1000;
+          const statusElem = document.querySelector('.play-status');
+          if (statusElem) {
+            statusElem.innerHTML = '<span class="pulse-dot"></span> 自動輪播中 (' + val + 's)';
+          }
+        }
+      });
+
+      // 複製參數
+      document.getElementById('btn-copy').addEventListener('click', () => {
+        const config = '【TEA TOP 看板動態參數配置報告】\n\n' +
+          '1. 滑出式選取 (Slide-out Selection):\n' +
+          '   - 平移距離 (Shift-X): ' + paramShift.value + 'px\n' +
+          '   - 動畫速度 (Transition): ' + paramTrans.value + 's\n\n' +
+          '2. 選中行高亮 (Active Highlight):\n' +
+          '   - 背景漸層與發光條: ' + (toggleHighlight.checked ? '開啟 (ON)' : '關閉 (OFF)') + '\n\n' +
+          '3. 彈跳指示器 (Bouncing Indicator):\n' +
+          '   - 顯示右側箭頭: ' + (toggleArrow.checked ? '開啟 (ON)' : '關閉 (OFF)') + '\n' +
+          '   - 箭頭彈跳速度: ' + paramBounce.value + 's\n\n' +
+          '4. 看板與輪播設定:\n' +
+          '   - 左側飲料展示區: ' + (toggleHero.checked ? '顯示 (ON)' : '隱藏 (OFF)') + '\n' +
+          '   - 輪播停留時間: ' + paramInterval.value + 's';
+        
+        navigator.clipboard.writeText(config.trim()).then(() => {
+          alert('✅ 參數設定報告已成功複製到剪貼簿！');
+        }).catch(() => {
+          alert(config);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TEA TOP 第一味 - TOP 10 視覺動態 UAT 2 調校面板</title>
+  <link rel="stylesheet" href="styles2.css?v=4">
+  <!-- 引入 Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@700;800;900&family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Noto+Sans+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       UAT 2 專屬懸浮控制面板樣式 (支援拖曳、折疊收合、即時調參)
+       ========================================================================== */
+    .uat-panel {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 350px;
+      max-height: calc(100vh - 30px);
+      background: rgba(12, 47, 84, 0.92);
+      color: #FFFFFF;
+      padding: 16px 18px;
+      border-radius: 14px;
+      z-index: 99999;
+      font-family: 'Noto Sans TC', sans-serif;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      overflow-y: auto;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .uat-panel.collapsed {
+      width: 220px;
+      max-height: 52px;
+      padding: 10px 16px;
+      overflow: hidden;
+    }
+
+    .uat-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: move;
+    }
+
+    .uat-panel-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #FF9933;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .uat-toggle-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #FFF;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .uat-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* 預設情境 Presets */
+    .preset-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFF;
+      padding: 6px 4px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .preset-btn:hover {
+      background: #EC6F09;
+      border-color: #EC6F09;
+    }
+    .preset-btn.active {
+      background: #EC6F09;
+      border-color: #FF9933;
+      box-shadow: 0 0 8px rgba(236, 111, 9, 0.6);
+    }
+
+    /* 控制分組 */
+    .uat-section {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+
+    .uat-section-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #FFB366;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .uat-control-row {
+      margin-bottom: 8px;
+    }
+    .uat-control-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .uat-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 4px;
+    }
+
+    .uat-val {
+      font-family: monospace;
+      font-size: 11.5px;
+      color: #00FF88;
+      font-weight: bold;
+    }
+
+    .uat-slider {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    .uat-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #FF9933;
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .uat-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .uat-switch input {
+      cursor: pointer;
+      accent-color: #EC6F09;
+      width: 15px;
+      height: 15px;
+    }
+
+    /* 快捷跳轉品項按鈕網格 */
+    .jump-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .jump-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #FFF;
+      padding: 4px 0;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+    .jump-btn:hover {
+      background: #EC6F09;
+    }
+
+    /* 複製報告按鈕 */
+    .btn-report {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #EC6F09 0%, #FF851B 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 4px 12px rgba(236, 111, 9, 0.4);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .btn-report:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+    .btn-report:active {
+      transform: translateY(1px);
+    }
+
+    .toast-msg {
+      display: none;
+      text-align: center;
+      font-size: 12px;
+      color: #00FF88;
+      margin-top: 6px;
+      font-weight: bold;
+    }
+
+    /* 自訂捲軸 */
+    .uat-panel::-webkit-scrollbar {
+      width: 5px;
+    }
+    .uat-panel::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= UAT 2 懸浮動態調校面板 ================= -->
+  <div class="uat-panel" id="uat-panel">
+    <div class="uat-panel-header" id="uat-drag-handle">
+      <div class="uat-panel-title">
+        <span>⚙️ TEA TOP UAT 2 調校台</span>
+      </div>
+      <button class="uat-toggle-btn" id="btn-collapse" title="收合/展開面板">收合</button>
+    </div>
+
+    <!-- 快速情境模式 -->
+    <div class="preset-container">
+      <button class="preset-btn active" data-preset="classic">🌟 1. teatop2 經典原版</button>
+      <button class="preset-btn" data-preset="dynamic">🚀 2. 數位看板動感模式</button>
+      <button class="preset-btn" data-preset="minimal">🍃 3. 極簡純色模式</button>
+      <button class="preset-btn" data-preset="slow">📺 4. 展覽慢巡航模式</button>
+    </div>
+
+    <!-- 模組 1: 右側清單反白與高亮特效 -->
+    <div class="uat-section">
+      <div class="uat-section-title">
+        <span>1. 右側清單反白動態 (teatop2 特效)</span>
+      </div>
+
+      <div class="uat-control-row">
+        <label class="uat-switch">
+          <input type="checkbox" id="toggle-white-invert" checked>
+          <span><b>選中行白底反色 (White Invert)</b></span>
+        </label>
+      </div>
+
+      <div class="uat-control-row">
+        <label class="uat-switch">
+          <input type="checkbox" id="toggle-filtero" checked>
+          <span><b>品名與標籤高對比濾鏡 (Filter)</b></span>
+        </label>
+      </div>
+
+      <div class="uat-control-row" style="margin-top: 8px;">
+        <div class="uat-label">
+          <span>向左滑出平移 (Shift-X)</span>
+          <span class="uat-val" id="val-shift">0px</span>
+        </div>
+        <input type="range" class="uat-slider" id="param-shift" min="-30" max="0" value="0" step="1">
+      </div>
+
+      <div class="uat-control-row">
+        <div class="uat-label">
+          <span>過渡動畫速度 (Transition)</span>
+          <span class="uat-val" id="val-trans">0.25s</span>
+        </div>
+        <input type="range" class="uat-slider" id="param-trans" min="0.05" max="1.5" value="0.25" step="0.05">
+      </div>
+
+      <div class="uat-control-row">
+        <div class="uat-label">
+          <span>高亮懸浮陰影 (Shadow)</span>
+          <span class="uat-val" id="val-shadow">25px</span>
+        </div>
+        <input type="range" class="uat-slider" id="param-shadow" min="0" max="50" value="25" step="5">
+      </div>
+
+      <div class="uat-control-row">
+        <label class="uat-switch">
+          <input type="checkbox" id="toggle-active-bar">
+          <span>左側發光指示白條 (Active Bar)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 模組 2: 左側展示區與動態 (Hero Section) -->
+    <div class="uat-section">
+      <div class="uat-section-title">
+        <span>2. 左側主視覺動態 (Hero Section)</span>
+      </div>
+
+      <div class="uat-control-row">
+        <label class="uat-switch">
+          <input type="checkbox" id="toggle-hero-section" checked>
+          <span>顯示左側飲品展示區</span>
+        </label>
+      </div>
+
+      <div class="uat-control-row">
+        <label class="uat-switch">
+          <input type="checkbox" id="toggle-hero-float" checked>
+          <span>飲品上下飄浮微動效 (Float)</span>
+        </label>
+      </div>
+
+      <div class="uat-control-row" style="margin-top: 6px;">
+        <div class="uat-label">
+          <span>飄浮週期速度 (Float Duration)</span>
+          <span class="uat-val" id="val-float">4s</span>
+        </div>
+        <input type="range" class="uat-slider" id="param-float" min="1" max="8" value="4" step="0.5">
+      </div>
+
+      <div class="uat-control-row">
+        <label class="uat-switch">
+          <input type="checkbox" id="toggle-hero-glow" checked>
+          <span>飲品背後放射環境光暈</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 模組 3: 自動輪播與手動跳轉 -->
+    <div class="uat-section">
+      <div class="uat-section-title">
+        <span>3. 輪播控制與跳轉 (Carousel)</span>
+        <button class="uat-toggle-btn" id="btn-pause-play" style="font-size: 11px; padding: 2px 6px;">❚❚ 暫停</button>
+      </div>
+
+      <div class="uat-control-row">
+        <div class="uat-label">
+          <span>輪播停留時間 (Interval)</span>
+          <span class="uat-val" id="val-interval">5s</span>
+        </div>
+        <input type="range" class="uat-slider" id="param-interval" min="1" max="15" value="5" step="1">
+      </div>
+
+      <div class="uat-control-row" style="margin-top: 6px;">
+        <div class="uat-label"><span>手動跳轉指定名次:</span></div>
+        <div class="jump-grid">
+          <button class="jump-btn" data-jump="0">TOP 1</button>
+          <button class="jump-btn" data-jump="1">TOP 2</button>
+          <button class="jump-btn" data-jump="2">TOP 3</button>
+          <button class="jump-btn" data-jump="3">TOP 4</button>
+          <button class="jump-btn" data-jump="4">TOP 5</button>
+          <button class="jump-btn" data-jump="5">TOP 6</button>
+          <button class="jump-btn" data-jump="6">TOP 7</button>
+          <button class="jump-btn" data-jump="7">TOP 8</button>
+          <button class="jump-btn" data-jump="8">TOP 9</button>
+          <button class="jump-btn" data-jump="9">TOP 10</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 匯出與複製報告 -->
+    <button class="btn-report" id="btn-copy-report">📋 複製當前最佳參數報告 (給老闆確認)</button>
+    <div class="toast-msg" id="toast-msg">✅ 參數報告已成功複製到剪貼簿！</div>
+  </div>
+
+  <!-- ================= 1920x1080 視窗縮放看板主體 ================= -->
+  <div id="screen-scaler" class="screen-scaler">
+    <div id="app" class="app-container">
+      
+      <!-- ================= 左側展示區 (1080px x 1080px) ================= -->
+      <section class="hero-section" id="hero-section">
+        <div class="circle-decor circle-1"></div>
+        <div class="circle-decor circle-2"></div>
+        <div class="circle-decor circle-3"></div>
+
+        <header class="hero-header">
+          <img src="assets/images/logo.png" alt="TEA TOP 第一味" class="brand-logo">
+        </header>
+
+        <div class="hero-content" id="hero-content">
+          <div class="hero-image-wrapper">
+            <img id="hero-drink-img" src="assets/images/drinks/drink_1_hero.png" alt="飲品展示" class="hero-drink-img">
+            <div class="drink-glow" id="hero-drink-glow"></div>
+          </div>
+
+          <div class="hero-info" id="hero-info">
+            <div class="hero-rank-tag" id="hero-rank-tag">TOP 01</div>
+            <h1 class="hero-title" id="hero-title">招牌高山青</h1>
+            <p class="hero-eng-title" id="hero-eng-title">Signature Alpine Green Tea</p>
+            
+            <div class="hero-footer-meta">
+              <div class="hero-price-wrapper">
+                <span class="hero-currency">$</span>
+                <span class="hero-price" id="hero-price">40</span>
+                <span class="hero-size-badge">L</span>
+              </div>
+              <div class="hero-badges" id="hero-badges"></div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="hero-controller" id="hero-controller">
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+          <div class="controller-info">
+            <span class="play-status" id="play-status">
+              <span class="pulse-dot"></span> 自動輪播中 (5s)
+            </span>
+            <span class="remote-hint">鍵盤/遙控器: ▲ ▼ 切換 / 空白鍵 暫停 / F 全螢幕</span>
+          </div>
+        </footer>
+      </section>
+
+      <!-- ================= 右側 Top 10 排行清單區 (840px x 1080px) ================= -->
+      <aside class="menu-section" id="menu-section">
+        <div class="menu-list" id="menu-list"></div>
+      </aside>
+
+    </div>
+  </div>
+
+  <script src="app2.js?v=4"></script>
+
+  <!-- ================= UAT 2 控制腳本 ================= -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const root = document.documentElement;
+
+      // DOM 元件
+      const uatPanel = document.getElementById('uat-panel');
+      const dragHandle = document.getElementById('uat-drag-handle');
+      const btnCollapse = document.getElementById('btn-collapse');
+      const btnPausePlay = document.getElementById('btn-pause-play');
+      const btnCopyReport = document.getElementById('btn-copy-report');
+      const toastMsg = document.getElementById('toast-msg');
+
+      const toggleWhiteInvert = document.getElementById('toggle-white-invert');
+      const toggleFiltero = document.getElementById('toggle-filtero');
+      const toggleActiveBar = document.getElementById('toggle-active-bar');
+      const toggleHeroSection = document.getElementById('toggle-hero-section');
+      const toggleHeroFloat = document.getElementById('toggle-hero-float');
+      const toggleHeroGlow = document.getElementById('toggle-hero-glow');
+
+      const paramShift = document.getElementById('param-shift');
+      const paramTrans = document.getElementById('param-trans');
+      const paramShadow = document.getElementById('param-shadow');
+      const paramFloat = document.getElementById('param-float');
+      const paramInterval = document.getElementById('param-interval');
+
+      const valShift = document.getElementById('val-shift');
+      const valTrans = document.getElementById('val-trans');
+      const valShadow = document.getElementById('val-shadow');
+      const valFloat = document.getElementById('val-float');
+      const valInterval = document.getElementById('val-interval');
+
+      // 1. 白底反色 (White Invert) 控制
+      function applyWhiteInvert(isOn) {
+        if (isOn) {
+          root.style.setProperty('--active-bg-orange', '#FFFFFF');
+          root.style.setProperty('--active-bg-navy', '#FFFFFF');
+          root.style.setProperty('--active-text-color', '#EC6F09');
+          root.style.setProperty('--active-price-color', '#EC6F09');
+          root.style.setProperty('--active-currency-color', '#EC6F09');
+          root.style.setProperty('--active-badge-bg', '#EC6F09');
+        } else {
+          // 關閉白底：保持原色調微亮
+          root.style.setProperty('--active-bg-orange', 'linear-gradient(90deg, #FF7A1A 0%, #EC6F09 100%)');
+          root.style.setProperty('--active-bg-navy', 'linear-gradient(90deg, #1A4A7A 0%, #0C2F54 100%)');
+          root.style.setProperty('--active-text-color', '#FFFFFF');
+          root.style.setProperty('--active-price-color', '#FFFFFF');
+          root.style.setProperty('--active-currency-color', '#0C2F54');
+          root.style.setProperty('--active-badge-bg', '#0C2F54');
+        }
+      }
+      toggleWhiteInvert.addEventListener('change', (e) => applyWhiteInvert(e.target.checked));
+
+      // 2. 濾鏡 (Filtero) 控制
+      function applyFiltero(isOn) {
+        if (isOn) {
+          root.style.setProperty('--active-filter', 'hue-rotate(-176deg) saturate(150%) brightness(260%) contrast(120%)');
+        } else {
+          root.style.setProperty('--active-filter', 'none');
+        }
+      }
+      toggleFiltero.addEventListener('change', (e) => applyFiltero(e.target.checked));
+
+      // 3. 平移位移 (Shift-X)
+      paramShift.addEventListener('input', (e) => {
+        valShift.textContent = e.target.value + 'px';
+        root.style.setProperty('--active-shift-x', e.target.value + 'px');
+      });
+
+      // 4. 動畫速度 (Transition)
+      paramTrans.addEventListener('input', (e) => {
+        valTrans.textContent = e.target.value + 's';
+        root.style.setProperty('--transition-speed', e.target.value + 's');
+      });
+
+      // 5. 陰影強度 (Shadow)
+      paramShadow.addEventListener('input', (e) => {
+        const v = parseInt(e.target.value);
+        valShadow.textContent = v + 'px';
+        if (v === 0) {
+          root.style.setProperty('--active-shadow', 'none');
+        } else {
+          root.style.setProperty('--active-shadow', `0 ${Math.round(v * 0.4)}px ${v}px rgba(0, 0, 0, ${0.2 + (v / 100)})`);
+        }
+      });
+
+      // 6. 左側發光白條 (Active Bar)
+      toggleActiveBar.addEventListener('change', (e) => {
+        root.style.setProperty('--active-bar-display', e.target.checked ? 'block' : 'none');
+      });
+
+      // 7. 左側展示區開關
+      toggleHeroSection.addEventListener('change', (e) => {
+        document.getElementById('hero-content').style.display = e.target.checked ? 'flex' : 'none';
+        document.getElementById('hero-controller').style.display = e.target.checked ? 'block' : 'none';
+      });
+
+      // 8. 飲品飄浮微動效
+      toggleHeroFloat.addEventListener('change', (e) => {
+        const heroImg = document.getElementById('hero-drink-img');
+        if (heroImg) {
+          heroImg.style.animation = e.target.checked ? `floatDrink var(--hero-float-speed) ease-in-out infinite` : 'none';
+        }
+      });
+
+      paramFloat.addEventListener('input', (e) => {
+        valFloat.textContent = e.target.value + 's';
+        root.style.setProperty('--hero-float-speed', e.target.value + 's');
+      });
+
+      // 9. 放射光暈
+      toggleHeroGlow.addEventListener('change', (e) => {
+        root.style.setProperty('--hero-glow-display', e.target.checked ? 'block' : 'none');
+      });
+
+      // 10. 輪播時間 (Interval)
+      paramInterval.addEventListener('input', (e) => {
+        const sec = parseInt(e.target.value);
+        valInterval.textContent = sec + 's';
+        if (window.app2) {
+          window.app2.autoPlayInterval = sec * 1000;
+          const playStatus = document.getElementById('play-status');
+          if (playStatus && window.app2.isPlaying) {
+            playStatus.innerHTML = `<span class="pulse-dot"></span> 自動輪播中 (${sec}s)`;
+          }
+        }
+      });
+
+      // 暫停/播放按鈕
+      btnPausePlay.addEventListener('click', () => {
+        if (window.app2) {
+          window.app2.togglePlay();
+          btnPausePlay.textContent = window.app2.isPlaying ? '❚❚ 暫停' : '▶ 繼續';
+        }
+      });
+
+      // 快捷跳轉品項
+      document.querySelectorAll('.jump-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.jump);
+          if (window.app2) {
+            window.app2.selectDrink(idx);
+            window.app2.resetProgress();
+          }
+        });
+      });
+
+      // 預設情境 (Presets)
+      const presets = {
+        classic: {
+          whiteInvert: true,
+          filtero: true,
+          shift: 0,
+          trans: 0.25,
+          shadow: 25,
+          activeBar: false,
+          heroFloat: true,
+          floatSpeed: 4,
+          interval: 5
+        },
+        dynamic: {
+          whiteInvert: true,
+          filtero: true,
+          shift: -12,
+          trans: 0.3,
+          shadow: 35,
+          activeBar: true,
+          heroFloat: true,
+          floatSpeed: 3.5,
+          interval: 5
+        },
+        minimal: {
+          whiteInvert: false,
+          filtero: false,
+          shift: -6,
+          trans: 0.15,
+          shadow: 10,
+          activeBar: false,
+          heroFloat: false,
+          floatSpeed: 4,
+          interval: 4
+        },
+        slow: {
+          whiteInvert: true,
+          filtero: true,
+          shift: -8,
+          trans: 0.6,
+          shadow: 30,
+          activeBar: false,
+          heroFloat: true,
+          floatSpeed: 6,
+          interval: 8
+        }
+      };
+
+      function applyPreset(name) {
+        const p = presets[name];
+        if (!p) return;
+
+        toggleWhiteInvert.checked = p.whiteInvert;
+        applyWhiteInvert(p.whiteInvert);
+
+        toggleFiltero.checked = p.filtero;
+        applyFiltero(p.filtero);
+
+        paramShift.value = p.shift;
+        valShift.textContent = p.shift + 'px';
+        root.style.setProperty('--active-shift-x', p.shift + 'px');
+
+        paramTrans.value = p.trans;
+        valTrans.textContent = p.trans + 's';
+        root.style.setProperty('--transition-speed', p.trans + 's');
+
+        paramShadow.value = p.shadow;
+        valShadow.textContent = p.shadow + 'px';
+        root.style.setProperty('--active-shadow', `0 ${Math.round(p.shadow * 0.4)}px ${p.shadow}px rgba(0, 0, 0, ${0.2 + (p.shadow / 100)})`);
+
+        toggleActiveBar.checked = p.activeBar;
+        root.style.setProperty('--active-bar-display', p.activeBar ? 'block' : 'none');
+
+        toggleHeroFloat.checked = p.heroFloat;
+        const heroImg = document.getElementById('hero-drink-img');
+        if (heroImg) {
+          heroImg.style.animation = p.heroFloat ? `floatDrink ${p.floatSpeed}s ease-in-out infinite` : 'none';
+        }
+
+        paramFloat.value = p.floatSpeed;
+        valFloat.textContent = p.floatSpeed + 's';
+        root.style.setProperty('--hero-float-speed', p.floatSpeed + 's');
+
+        paramInterval.value = p.interval;
+        valInterval.textContent = p.interval + 's';
+        if (window.app2) {
+          window.app2.autoPlayInterval = p.interval * 1000;
+          const playStatus = document.getElementById('play-status');
+          if (playStatus && window.app2.isPlaying) {
+            playStatus.innerHTML = `<span class="pulse-dot"></span> 自動輪播中 (${p.interval}s)`;
+          }
+        }
+      }
+
+      document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          applyPreset(btn.dataset.preset);
+        });
+      });
+
+      // 收合/展開面板
+      btnCollapse.addEventListener('click', () => {
+        const isCollapsed = uatPanel.classList.toggle('collapsed');
+        btnCollapse.textContent = isCollapsed ? '展開' : '收合';
+      });
+
+      // 拖曳面板
+      let isDragging = false;
+      let startX, startY, startLeft, startTop;
+
+      dragHandle.addEventListener('mousedown', (e) => {
+        if (e.target === btnCollapse) return;
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        const rect = uatPanel.getBoundingClientRect();
+        startLeft = rect.left;
+        startTop = rect.top;
+        document.body.style.userSelect = 'none';
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        uatPanel.style.left = `${Math.max(10, Math.min(window.innerWidth - 360, startLeft + dx))}px`;
+        uatPanel.style.top = `${Math.max(10, Math.min(window.innerHeight - 80, startTop + dy))}px`;
+      });
+
+      window.addEventListener('mouseup', () => {
+        isDragging = false;
+        document.body.style.userSelect = '';
+      });
+
+      // 複製參數報告
+      btnCopyReport.addEventListener('click', () => {
+        const report = `【TEA TOP 第一味 - TOP 10 看板動態參數拍板報告】
+
+📌 1. 右側 TOP 10 清單動態:
+   - 選中行白底反色 (White Invert): ${toggleWhiteInvert.checked ? '開啟 (ON - 純白底)' : '關閉 (OFF - 原色漸層)'}
+   - 品名高對比濾鏡 (Filtero): ${toggleFiltero.checked ? '開啟 (ON)' : '關閉 (OFF)'}
+   - 向左滑出平移 (Shift-X): ${paramShift.value}px
+   - 過渡動畫速度 (Transition): ${paramTrans.value}s
+   - 懸浮陰影強度 (Shadow): ${paramShadow.value}px
+   - 左側發光白條 (Active Bar): ${toggleActiveBar.checked ? '開啟 (ON)' : '關閉 (OFF)'}
+
+📌 2. 左側展示區 (Hero Section):
+   - 飲品展示區: ${toggleHeroSection.checked ? '顯示 (ON)' : '隱藏 (OFF)'}
+   - 飲品浮動微動效: ${toggleHeroFloat.checked ? '開啟 (ON)' : '關閉 (OFF)'} (週期: ${paramFloat.value}s)
+   - 放射環境光暈: ${toggleHeroGlow.checked ? '開啟 (ON)' : '關閉 (OFF)'}
+
+📌 3. 看板輪播設定 (Carousel):
+   - 輪播停留時間: ${paramInterval.value} 秒/品項
+
+/* --- CSS 變數程式碼代碼 --- */
+:root {
+  --active-shift-x: ${paramShift.value}px;
+  --transition-speed: ${paramTrans.value}s;
+  --active-shadow: 0 ${Math.round(paramShadow.value * 0.4)}px ${paramShadow.value}px rgba(0, 0, 0, 0.25);
+  --active-bar-display: ${toggleActiveBar.checked ? 'block' : 'none'};
+  --hero-float-speed: ${paramFloat.value}s;
+}`;
+
+        navigator.clipboard.writeText(report.trim()).then(() => {
+          toastMsg.style.display = 'block';
+          setTimeout(() => { toastMsg.style.display = 'none'; }, 3000);
+        }).catch(() => {
+          alert(report);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

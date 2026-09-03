@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TEA TOP 第一味 - TOP 10 人氣飲品排行榜 (動態特效版)</title>
+  <link rel="stylesheet" href="styles2.css?v=3">
+  <!-- 引入 Google Fonts: Funnel Display, Montserrat, 思源黑體 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@700;800;900&family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Noto+Sans+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- 1920x1080 自適應螢幕縮放容器 -->
+  <div id="screen-scaler" class="screen-scaler">
+    <div id="app" class="app-container">
+      
+      <!-- ================= 左側展示區 (1080px x 1080px) ================= -->
+      <section class="hero-section" id="hero-section">
+        <!-- 品牌橘色幾何背景裝飾 -->
+        <div class="circle-decor circle-1"></div>
+        <div class="circle-decor circle-2"></div>
+        <div class="circle-decor circle-3"></div>
+
+        <!-- 頂部 TEA TOP Logo -->
+        <header class="hero-header">
+          <img src="assets/images/logo.png" alt="TEA TOP 第一味" class="brand-logo">
+        </header>
+
+        <!-- 輪播動態飲品展示區 -->
+        <div class="hero-content" id="hero-content">
+          <!-- 飲品大圖與環境光暈 -->
+          <div class="hero-image-wrapper">
+            <img id="hero-drink-img" src="assets/images/drinks/drink_1_hero.png" alt="飲品展示" class="hero-drink-img">
+            <div class="drink-glow"></div>
+          </div>
+
+          <!-- 飲品資訊卡片 -->
+          <div class="hero-info" id="hero-info">
+            <div class="hero-rank-tag" id="hero-rank-tag">TOP 01</div>
+            <h1 class="hero-title" id="hero-title">招牌高山青</h1>
+            <p class="hero-eng-title" id="hero-eng-title">Signature Alpine Green Tea</p>
+            
+            <div class="hero-footer-meta">
+              <div class="hero-price-wrapper">
+                <span class="hero-currency">$</span>
+                <span class="hero-price" id="hero-price">40</span>
+                <span class="hero-size-badge">L</span>
+              </div>
+              <div class="hero-badges" id="hero-badges">
+                <!-- 動態注入標籤 -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 輪播控制與進度指示條 -->
+        <footer class="hero-controller" id="hero-controller">
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+          </div>
+          <div class="controller-info">
+            <span class="play-status" id="play-status">
+              <span class="pulse-dot"></span> 自動輪播中 (5s)
+            </span>
+            <span class="remote-hint">鍵盤/遙控器: ▲ ▼ 切換 / 空白鍵 暫停 / F 全螢幕</span>
+          </div>
+        </footer>
+      </section>
+
+      <!-- ================= 右側 Top 10 排行清單區 (840px x 1080px) ================= -->
+      <aside class="menu-section" id="menu-section">
+        <div class="menu-list" id="menu-list">
+          <!-- 由 app2.js 動態產生 10 個品項，並同步 teatop2 反白聚焦動態特效 -->
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <script src="app2.js?v=3"></script>
+</body>
+</html>

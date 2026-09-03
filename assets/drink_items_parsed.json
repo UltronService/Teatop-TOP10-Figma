@@ -1,0 +1,3226 @@
+[
+  {
+    "cardId": "3:3",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1018.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.9254902005195618,
+          "g": 0.43529412150382996,
+          "b": 0.03529411926865578,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:5",
+        "name": "01",
+        "characters": "01",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1040.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:6",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1069.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:8",
+        "name": "招牌高山青",
+        "characters": "招牌高山青",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Bold",
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 99.99999237060547,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1050.772216796875,
+          "width": 128.6999969482422,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:10",
+        "name": "Signature Alpine Green Tea",
+        "characters": "Signature Alpine Green Tea",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1083.572265625,
+          "width": 233.18109130859375,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:11",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1050.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:13",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1078.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:14",
+        "name": "Heading 1 → 40",
+        "characters": "40",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1040.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:15",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1126.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.9411764740943909,
+          "g": 0.5490196347236633,
+          "b": 0.22745098173618317,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:17",
+        "name": "02",
+        "characters": "02",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1148.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:18",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1177.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:20",
+        "name": "108茶王",
+        "characters": "108茶王",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 98.44133758544922,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1158.772216796875,
+          "width": 97.80070495605469,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:22",
+        "name": "108 King Oolong Tea",
+        "characters": "108 King Oolong Tea",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1191.572265625,
+          "width": 173.96487426757812,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:23",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1158.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:25",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1186.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:26",
+        "name": "Heading 1 → 49",
+        "characters": "49",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1148.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:27",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1234.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.9254902005195618,
+          "g": 0.43529412150382996,
+          "b": 0.03529411926865578,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:29",
+        "name": "03",
+        "characters": "03",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1256.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:30",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1285.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:32",
+        "name": "青茶3Q",
+        "characters": "青茶3Q",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 98.44133758544922,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1257.1822509765625,
+          "width": 89.31746673583984,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:34",
+        "name": "Alpine Green Tea w/ Coconut jelly & Tea jelly & Pearl",
+        "characters": "Alpine Green Tea w/\nCoconut jelly & Tea jelly & Pearl",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1289.9722900390625,
+          "width": 265.44000244140625,
+          "height": 38.189998626708984
+        }
+      },
+      {
+        "id": "3:35",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1266.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:37",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1294.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:38",
+        "name": "Heading 1 → 50",
+        "characters": "50",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1256.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:39",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1342.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.9411764740943909,
+          "g": 0.5490196347236633,
+          "b": 0.22745098173618317,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:41",
+        "name": "04",
+        "characters": "04",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1364.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:42",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1393.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:44",
+        "name": "黑糖珍珠鮮奶",
+        "characters": "黑糖珍珠鮮奶",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Bold",
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 99.99999237060547,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1374.772216796875,
+          "width": 154.39999389648438,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:46",
+        "name": "Brown Sugar Fresh Milk w/ Pearls",
+        "characters": "Brown Sugar Fresh Milk w/ Pearls",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1407.572265625,
+          "width": 285.86114501953125,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:47",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1374.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:49",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1402.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:50",
+        "name": "Heading 1 → 80",
+        "characters": "80",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1364.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:51",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1450.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.9254902005195618,
+          "g": 0.43529412150382996,
+          "b": 0.03529411926865578,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:53",
+        "name": "05",
+        "characters": "05",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1472.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:54",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1501.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:56",
+        "name": "當代雙Q",
+        "characters": "當代雙Q",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Bold",
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 99.99999237060547,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1482.772216796875,
+          "width": 99.22000122070312,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:58",
+        "name": "Pearl Milk Tea w/ Taro Balls",
+        "characters": "Pearl Milk Tea w/ Taro Balls",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1515.572265625,
+          "width": 231.10946655273438,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:59",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.0470588244497776,
+              "g": 0.18431372940540314,
+              "b": 0.3294117748737335,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1482.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:61",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1510.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:62",
+        "name": "Heading 1 → 65",
+        "characters": "65",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1472.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:63",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1558.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.0470588244497776,
+          "g": 0.18431372940540314,
+          "b": 0.3294117748737335,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:65",
+        "name": "06",
+        "characters": "06",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1580.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:66",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1609.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:68",
+        "name": "桂花凍108",
+        "characters": "桂花凍108",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 98.44133758544922,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1590.772216796875,
+          "width": 123.55087280273438,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:70",
+        "name": "108 King Oolong Tea w/ Osmanthus Jelly",
+        "characters": "108 King Oolong Tea w/ Osmanthus Jelly",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1623.572265625,
+          "width": 346.004638671875,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:71",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.9254902005195618,
+              "g": 0.43529412150382996,
+              "b": 0.03529411926865578,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1590.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:73",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1618.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:74",
+        "name": "Heading 1 → 70",
+        "characters": "70",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1580.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:75",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1666.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.239215686917305,
+          "g": 0.3490196168422699,
+          "b": 0.4627451002597809,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:77",
+        "name": "07",
+        "characters": "07",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1688.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:78",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1717.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:80",
+        "name": "奶蓋日月紅",
+        "characters": "奶蓋日月紅",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Bold",
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 99.99999237060547,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1698.772216796875,
+          "width": 128.6999969482422,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:82",
+        "name": "Milk Foam Sun Moon Lake Black Tea",
+        "characters": "Milk Foam Sun Moon Lake Black Tea",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1731.572265625,
+          "width": 310.0906066894531,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:83",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.9254902005195618,
+              "g": 0.43529412150382996,
+              "b": 0.03529411926865578,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1698.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:85",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1726.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:86",
+        "name": "Heading 1 → 60",
+        "characters": "60",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1688.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:87",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1774.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.0470588244497776,
+          "g": 0.18431372940540314,
+          "b": 0.3294117748737335,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:89",
+        "name": "08",
+        "characters": "08",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1796.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:90",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1825.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:91",
+        "name": "Heading 4 → 轟蜜茶108",
+        "characters": "轟蜜茶108",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 98.44133758544922,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1803.4122314453125,
+          "width": 123.55087280273438,
+          "height": 28.799999237060547
+        }
+      },
+      {
+        "id": "3:92",
+        "name": "Honey 108 King Oolong Tea w/ Tea Jelly",
+        "characters": "Honey 108 King Oolong Tea w/ Tea Jelly",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1835.2122802734375,
+          "width": 335.9407043457031,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:93",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.9254902005195618,
+              "g": 0.43529412150382996,
+              "b": 0.03529411926865578,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1806.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:95",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1834.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:96",
+        "name": "Heading 1 → 70",
+        "characters": "70",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1796.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:97",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1882.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.239215686917305,
+          "g": 0.3490196168422699,
+          "b": 0.4627451002597809,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:99",
+        "name": "09",
+        "characters": "09",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 1904.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:100",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 1933.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:102",
+        "name": "紅豆粉粿鮮奶",
+        "characters": "紅豆粉粿鮮奶",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Bold",
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 99.99999237060547,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1914.772216796875,
+          "width": 154.39999389648438,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:104",
+        "name": "Brown Sugar Fresh Milk w/ Red Bean & Jelly",
+        "characters": "Brown Sugar Fresh Milk w/ Red Bean & Jelly",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 1947.572265625,
+          "width": 375.176025390625,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:105",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.9254902005195618,
+              "g": 0.43529412150382996,
+              "b": 0.03529411926865578,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 1914.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:107",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 1942.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:108",
+        "name": "Heading 1 → 95",
+        "characters": "95",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 1904.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:109",
+    "cardName": "Background",
+    "cardBox": {
+      "x": 370.67987060546875,
+      "y": 1990.9122314453125,
+      "width": 840,
+      "height": 108
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.0470588244497776,
+          "g": 0.18431372940540314,
+          "b": 0.3294117748737335,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:111",
+        "name": "10",
+        "characters": "10",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 385.67987060546875,
+          "y": 2012.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      },
+      {
+        "id": "3:112",
+        "name": "/",
+        "characters": " /",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Black",
+          "fontStyle": "Black",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 100,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 445.8798828125,
+          "y": 2041.6121826171875,
+          "width": 11.152874946594238,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:114",
+        "name": "百香QQ",
+        "characters": "百香QQ",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 24,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1.7000000476837158,
+          "lineHeightPx": 28.799999237060547,
+          "lineHeightPercent": 98.44133758544922,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 2022.772216796875,
+          "width": 95.56721496582031,
+          "height": 29
+        }
+      },
+      {
+        "id": "3:116",
+        "name": "Passion Fruit Green Tea Medley",
+        "characters": "Passion Fruit Green Tea Medley",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.30000001192092896,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 464.7098693847656,
+          "y": 2055.572265625,
+          "width": 267.50396728515625,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:117",
+        "name": "$",
+        "characters": "$",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 24,
+          "lineHeightPercent": 123.05168151855469,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 0.9254902005195618,
+              "g": 0.43529412150382996,
+              "b": 0.03529411926865578,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1107.56982421875,
+          "y": 2022.322265625,
+          "width": 10.393499374389648,
+          "height": 24
+        }
+      },
+      {
+        "id": "3:119",
+        "name": "L",
+        "characters": "L",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 12.800000190734863,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 123.05168914794922,
+          "lineHeightPercentFontSize": 150,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1108.7698974609375,
+          "y": 2050.322265625,
+          "width": 8.036749839782715,
+          "height": 15
+        }
+      },
+      {
+        "id": "3:120",
+        "name": "Heading 1 → 75",
+        "characters": "75",
+        "style": {
+          "fontFamily": "Funnel Display",
+          "fontPostScriptName": null,
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "LEFT",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 0.5,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 96,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": 1139.4798583984375,
+          "y": 2012.6121826171875,
+          "width": 56.57250213623047,
+          "height": 60
+        }
+      }
+    ]
+  },
+  {
+    "cardId": "3:121",
+    "cardName": "Background",
+    "cardBox": {
+      "x": -709.3201293945312,
+      "y": 1018.9122314453125,
+      "width": 1080,
+      "height": 1080
+    },
+    "cardFills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        }
+      }
+    ],
+    "texts": [
+      {
+        "id": "3:129",
+        "name": "Heading 3 → 招牌高山青",
+        "characters": "招牌高山青",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Bold",
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 3,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 99.99999237060547,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -296.83013916015625,
+          "y": 1907.1123046875,
+          "width": 255.22000122070312,
+          "height": 58
+        }
+      },
+      {
+        "id": "3:130",
+        "name": "Signature Alpine Green Tea",
+        "characters": "Signature Alpine Green Tea",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -294.82012939453125,
+          "y": 2002.9122314453125,
+          "width": 251.1999969482422,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:134",
+        "name": "Heading 3 → 108茶王",
+        "characters": "108茶王",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 48,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 3,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 98.44133758544922,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -265.7701416015625,
+          "y": 1907.1123046875,
+          "width": 193.08999633789062,
+          "height": 58
+        }
+      },
+      {
+        "id": "3:135",
+        "name": "108 King Oolong Tea",
+        "characters": "108 King Oolong Tea",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -262.7801208496094,
+          "y": 2002.9122314453125,
+          "width": 187.1199951171875,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:139",
+        "name": "Heading 3 → 青茶3Q",
+        "characters": "青茶3Q",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 48,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 3,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 98.44133758544922,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -257.5001220703125,
+          "y": 1907.1123046875,
+          "width": 176.55999755859375,
+          "height": 58
+        }
+      },
+      {
+        "id": "3:140",
+        "name": "Alpine Green Tea w/ Coconut jelly & Tea jelly & Pearl",
+        "characters": "Alpine Green Tea\nw/ Coconut jelly & Tea jelly & Pearl",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -327.2501220703125,
+          "y": 2004.1123046875,
+          "width": 316.05999755859375,
+          "height": 38.189998626708984
+        }
+      },
+      {
+        "id": "3:144",
+        "name": "Heading 3 → 黑糖珍珠鮮奶",
+        "characters": "黑糖珍珠鮮奶",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Bold",
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 3,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 99.99999237060547,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -322.33013916015625,
+          "y": 1907.1123046875,
+          "width": 306.2200012207031,
+          "height": 58
+        }
+      },
+      {
+        "id": "3:145",
+        "name": "Brown Sugar Fresh Milk w/ Pearls",
+        "characters": "Brown Sugar Fresh Milk w/ Pearls",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -323.3001403808594,
+          "y": 2002.9122314453125,
+          "width": 308.1499938964844,
+          "height": 19
+        }
+      },
+      {
+        "id": "3:149",
+        "name": "Heading 3 → 當代雙Q",
+        "characters": "當代雙Q",
+        "style": {
+          "fontFamily": "Noto Sans TC",
+          "fontPostScriptName": "NotoSansTC-Bold",
+          "fontStyle": "Bold",
+          "fontWeight": 700,
+          "fontSize": 48,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 3,
+          "lineHeightPx": 57.599998474121094,
+          "lineHeightPercent": 99.99999237060547,
+          "lineHeightPercentFontSize": 120,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -267.5301208496094,
+          "y": 1907.1123046875,
+          "width": 196.6199951171875,
+          "height": 58
+        }
+      },
+      {
+        "id": "3:150",
+        "name": "Pearl Milk Tea w/ Taro Balls",
+        "characters": "Pearl Milk Tea w/ Taro Balls",
+        "style": {
+          "fontFamily": "Montserrat",
+          "fontPostScriptName": null,
+          "fontStyle": "SemiBold",
+          "fontWeight": 600,
+          "fontSize": 16,
+          "textAlignHorizontal": "CENTER",
+          "textAlignVertical": "CENTER",
+          "letterSpacing": 1,
+          "lineHeightPx": 19.200000762939453,
+          "lineHeightPercent": 98.44135284423828,
+          "lineHeightPercentFontSize": 120.00000762939453,
+          "lineHeightUnit": "PIXELS"
+        },
+        "fills": [
+          {
+            "blendMode": "NORMAL",
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 1
+            }
+          }
+        ],
+        "box": {
+          "x": -294.4801330566406,
+          "y": 2002.9122314453125,
+          "width": 250.52999877929688,
+          "height": 19
+        }
+      }
+    ]
+  }
+]
