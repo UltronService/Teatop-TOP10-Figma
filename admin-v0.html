@@ -287,7 +287,8 @@
       const toggleBadge = (index, badgeStr) => {
         const newData = { ...menuData };
         const badges = newData.drinks[index].badges || [];
-        const existingIdx = badges.findIndex(b => b.includes(badgeStr));
+        const searchKey = badgeStr.startsWith('badge_') ? badgeStr : `badge_${badgeStr}`;
+        const existingIdx = badges.findIndex(b => b.includes(searchKey));
         
         let targetTheme = newData.drinks[index].theme || 'orange';
         
@@ -295,9 +296,13 @@
            badges.splice(existingIdx, 1);
         } else {
            // 根據主題賦予正確顏色的 badge
-           let badgePath = `assets/images/badges/badge_${badgeStr}.png`;
-           if (targetTheme === 'navy' && badgeStr === 'hot') {
+           let badgePath = `assets/images/badges/${searchKey}.png`;
+           if (targetTheme === 'navy' && searchKey === 'badge_hot') {
               badgePath = `assets/images/badges/badge_hot_navy.png`;
+           } else if (searchKey === 'badge_no_caffeine') {
+              badgePath = targetTheme === 'navy'
+                 ? 'assets/images/badges/badge_no_caffeine_hot_fixed_navy.png'
+                 : 'assets/images/badges/badge_no_caffeine_hot_fixed_orange.png';
            }
            badges.push(badgePath);
         }
@@ -427,14 +432,18 @@
 
       // 過濾商品挑選彈窗清單
       const filteredPickerProducts = useMemo(() => {
-        if (!productSearchTerm || !productSearchTerm.trim()) return products;
+        // 先過濾掉目前看板已有的商品 (避免重複)
+        const currentDrinkNames = menuData?.drinks ? menuData.drinks.map(d => d.name) : [];
+        const availableProducts = products.filter(p => !currentDrinkNames.includes(p.name));
+
+        if (!productSearchTerm || !productSearchTerm.trim()) return availableProducts;
         const q = productSearchTerm.trim().toLowerCase();
-        return products.filter(p => 
+        return availableProducts.filter(p => 
           (p.name && p.name.toLowerCase().includes(q)) ||
           (p.engName && p.engName.toLowerCase().includes(q)) ||
           (p.category && p.category.toLowerCase().includes(q))
         );
-      }, [products, productSearchTerm]);
+      }, [products, productSearchTerm, menuData]);
 
       // ===========================
       // 渲染元件
@@ -640,9 +649,9 @@
                         )}
                         <div className="divide-y divide-gray-100">
                            {menuData?.drinks?.map((item, idx) => {
-                              const isHot = (item.badges||[]).some(b=>b.includes('hot'));
-                              const isFixedSugar = (item.badges||[]).some(b=>b.includes('fixed_sugar'));
-                              const isNoCaff = (item.badges||[]).some(b=>b.includes('no_caffeine'));
+                              const isHot = (item.badges||[]).some(b=>b.includes('badge_hot'));
+                              const isFixedSugar = (item.badges||[]).some(b=>b.includes('badge_fixed_sugar'));
+                              const isNoCaff = (item.badges||[]).some(b=>b.includes('badge_no_caffeine'));
                               return (
                               <div key={idx} className="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
                                  {/* 排序 */}
@@ -664,9 +673,26 @@
                                     <div className="flex flex-col">
                                        <div className="font-bold text-lg text-brand-navy flex items-center gap-2">
                                           {item.name}
-                                          {isHot && <span className="text-[10px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded border border-red-200">♨️ 熱飲</span>}
-                                          {isFixedSugar && <span className="text-[10px] bg-purple-100 text-purple-600 px-1.5 py-0.5 rounded border border-purple-200">🍬 固定甜</span>}
-                                          {isNoCaff && <span className="text-[10px] bg-green-100 text-green-600 px-1.5 py-0.5 rounded border border-green-200">🌿 無咖啡因</span>}
+                                          {isHot && (
+                                              <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-orange-50 text-orange-800 px-1.5 py-0.5 rounded border border-orange-200" title="可做熱飲">
+                                                 <img src="assets/images/badges/badge_hot.png" alt="♨️" className="h-3.5 object-contain" />
+                                                 <span>可做熱飲</span>
+                                              </span>
+                                           )}
+                                           {isFixedSugar && (
+                                              <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-amber-50 text-amber-900 px-1.5 py-0.5 rounded border border-amber-200" title="甜度固定">
+                                                 <img src="assets/images/badges/badge_fixed_sugar.png" alt="［固］" className="h-3.5 object-contain bg-[#0c2f54] px-0.5 rounded" />
+                                                 <span>甜度固定</span>
+                                              </span>
+                                           )}
+                                           {isNoCaff && (
+                                              <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-blue-50 text-brand-navy px-1.5 py-0.5 rounded border border-blue-200" title="無咖啡因">
+                                                 <div className="w-3.5 h-3.5 overflow-hidden flex-shrink-0 inline-flex justify-start items-center">
+                                                    <img src="assets/images/badges/badge_no_caffeine_hot_fixed_orange.png" alt="⊘" className="h-3.5 max-w-none object-left" />
+                                                 </div>
+                                                 <span>無咖啡因</span>
+                                              </span>
+                                           )}
                                        </div>
                                        <div className="text-xs text-gray-500">{item.engName}</div>
                                     </div>
@@ -741,9 +767,9 @@
                      )}
                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
                         {products.map((prod, idx) => {
-                           const isHot = (prod.badges||[]).some(b=>b.includes('hot'));
-                           const isFixedSugar = (prod.badges||[]).some(b=>b.includes('fixed_sugar'));
-                           const isNoCaff = (prod.badges||[]).some(b=>b.includes('no_caffeine'));
+                           const isHot = (prod.badges||[]).some(b=>b.includes('badge_hot'));
+                           const isFixedSugar = (prod.badges||[]).some(b=>b.includes('badge_fixed_sugar'));
+                           const isNoCaff = (prod.badges||[]).some(b=>b.includes('badge_no_caffeine'));
                            return (
                            <div key={idx} className="border border-gray-200 rounded-xl p-4 flex gap-4 hover:border-brand-orange transition-colors">
                               <div className="w-20 h-20 bg-gray-50 rounded-lg border border-gray-100 flex-shrink-0 flex items-center justify-center relative cursor-pointer group">
@@ -771,30 +797,30 @@
                                        <label className="flex items-center gap-1 text-[11px] cursor-pointer text-gray-600"><input type="checkbox" checked={isHot} onChange={()=>{
                                           const newProds = [...products];
                                           const b = newProds[idx].badges || [];
-                                          const i = b.findIndex(x=>x.includes('hot'));
+                                          const i = b.findIndex(x=>x.includes('badge_hot'));
                                           if(i>=0) b.splice(i, 1);
                                           else b.push('assets/images/badges/badge_hot.png');
                                           newProds[idx] = { ...newProds[idx], badges: [...b] };
                                           setProducts(newProds);
-                                       }} /> ♨️ 可熱飲</label>
+                                       }} /> <img src="assets/images/badges/badge_hot.png" alt="♨️" className="h-3.5 object-contain inline-block ml-1 mr-0.5" /> <span>可做熱飲</span></label>
                                        <label className="flex items-center gap-1 text-[11px] cursor-pointer text-gray-600"><input type="checkbox" checked={isFixedSugar} onChange={()=>{
                                           const newProds = [...products];
                                           const b = newProds[idx].badges || [];
-                                          const i = b.findIndex(x=>x.includes('fixed_sugar'));
+                                          const i = b.findIndex(x=>x.includes('badge_fixed_sugar'));
                                           if(i>=0) b.splice(i, 1);
                                           else b.push('assets/images/badges/badge_fixed_sugar.png');
                                           newProds[idx] = { ...newProds[idx], badges: [...b] };
                                           setProducts(newProds);
-                                       }} /> 🍬 固定甜</label>
+                                       }} /> <img src="assets/images/badges/badge_fixed_sugar.png" alt="［固］" className="h-3.5 object-contain bg-[#0c2f54] px-0.5 rounded inline-block ml-1 mr-0.5" /> <span>甜度固定</span></label>
                                        <label className="flex items-center gap-1 text-[11px] cursor-pointer text-gray-600"><input type="checkbox" checked={isNoCaff} onChange={()=>{
                                           const newProds = [...products];
                                           const b = newProds[idx].badges || [];
-                                          const i = b.findIndex(x=>x.includes('no_caffeine'));
+                                          const i = b.findIndex(x=>x.includes('badge_no_caffeine'));
                                           if(i>=0) b.splice(i, 1);
                                           else b.push('assets/images/badges/badge_no_caffeine_hot_fixed_orange.png');
                                           newProds[idx] = { ...newProds[idx], badges: [...b] };
                                           setProducts(newProds);
-                                       }} /> 🌿 無咖啡因</label>
+                                       }} /> <div className="w-3.5 h-3.5 overflow-hidden inline-flex justify-start items-center ml-1 mr-0.5"><img src="assets/images/badges/badge_no_caffeine_hot_fixed_orange.png" alt="⊘" className="h-3.5 max-w-none object-left" /></div> <span>無咖啡因</span></label>
                                     </div>
                                  </div>
                               </div>

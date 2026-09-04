@@ -11,9 +11,9 @@ const DEFAULT_REGIONS = [
 ];
 
 const DEFAULT_BADGE_OPTIONS = [
-  { id: 'badge_hot', name: '可做熱飲 ♨️', path: 'assets/images/badges/badge_hot.png?v=3', pathNavy: 'assets/images/badges/badge_hot_navy.png?v=3' },
-  { id: 'badge_fixed_sugar', name: '甜度固定 🍬', path: 'assets/images/badges/badge_fixed_sugar.png?v=3', pathNavy: 'assets/images/badges/badge_fixed_sugar.png?v=3' },
-  { id: 'badge_no_caffeine_hot_fixed', name: '無咖啡因/固定/熱飲 🌿', path: 'assets/images/badges/badge_no_caffeine_hot_fixed_orange.png?v=3', pathNavy: 'assets/images/badges/badge_no_caffeine_hot_fixed_navy.png?v=3' }
+  { id: 'badge_hot', name: '可做熱飲', path: 'assets/images/badges/badge_hot.png?v=3', pathNavy: 'assets/images/badges/badge_hot_navy.png?v=3' },
+  { id: 'badge_fixed_sugar', name: '甜度固定', path: 'assets/images/badges/badge_fixed_sugar.png?v=3', pathNavy: 'assets/images/badges/badge_fixed_sugar.png?v=3' },
+  { id: 'badge_no_caffeine_hot_fixed', name: '無咖啡因', path: 'assets/images/badges/badge_no_caffeine_hot_fixed_orange.png?v=3', pathNavy: 'assets/images/badges/badge_no_caffeine_hot_fixed_navy.png?v=3' }
 ];
 
 const DEFAULT_HERO_IMAGES = [

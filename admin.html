@@ -476,6 +476,18 @@
       accent-color: var(--brand-orange);
     }
 
+    .badge-checkbox-item .badge-icon-img {
+      height: 16px;
+      object-fit: contain;
+      vertical-align: middle;
+    }
+
+    .badge-checkbox-item .badge-icon-img.dark-bg {
+      background-color: #0c2f54;
+      padding: 1px 3px;
+      border-radius: 3px;
+    }
+
     /* 排序與操作 */
     .col-reorder {
       display: flex;
@@ -1027,15 +1039,20 @@
               <div class="badge-checkbox-group">
                 <label class="badge-checkbox-item">
                   <input type="checkbox" class="badge-cb" data-badge="hot" ${isHot ? 'checked' : ''}>
-                  <span>可做熱飲 ♨️</span>
+                  <img src="assets/images/badges/badge_hot.png" class="badge-icon-img" alt="♨️">
+                  <span>可做熱飲</span>
                 </label>
                 <label class="badge-checkbox-item">
                   <input type="checkbox" class="badge-cb" data-badge="fixed_sugar" ${isFixedSugar ? 'checked' : ''}>
-                  <span>甜度固定 🍬</span>
+                  <img src="assets/images/badges/badge_fixed_sugar.png" class="badge-icon-img dark-bg" alt="［固］">
+                  <span>甜度固定</span>
                 </label>
                 <label class="badge-checkbox-item">
                   <input type="checkbox" class="badge-cb" data-badge="no_caffeine" ${isNoCaffeine ? 'checked' : ''}>
-                  <span>無咖啡因/固定 🌿</span>
+                  <div style="width: 14px; height: 14px; overflow: hidden; display: inline-flex; align-items: center; justify-content: flex-start; vertical-align: middle; margin-right: 2px;">
+                    <img src="assets/images/badges/badge_no_caffeine_hot_fixed_orange.png" style="height: 14px; max-width: none; object-position: left; object-fit: none;" alt="⊘">
+                  </div>
+                  <span>無咖啡因</span>
                 </label>
               </div>
             </div>
@@ -1273,7 +1290,8 @@
               <div class="badge-checkbox-group">
                 ${(window.DEFAULT_BADGE_OPTIONS || []).map(b => {
                   const checked = (prod.badges || []).some(pb => pb.includes(b.id) || (b.path && pb.includes(b.path.split('?')[0]))) ? 'checked' : '';
-                  return `<label class="badge-checkbox-item"><input type="checkbox" class="prod-badge-cb" data-id="${prod.id}" value="${b.path}" ${checked}> ${b.name}</label>`;
+                  const isDarkBg = b.id === "badge_fixed_sugar";
+                  return `<label class="badge-checkbox-item"><input type="checkbox" class="prod-badge-cb" data-id="${prod.id}" value="${b.path}" ${checked}><img src="${b.path}" class="badge-icon-img ${isDarkBg ? "dark-bg" : ""}"> <span>${b.name}</span></label>`;
                 }).join('')}
               </div>
             </div>
@@ -1361,7 +1379,11 @@
         this.productList.innerHTML = '';
         const lowerFilter = filterStr.toLowerCase();
         
-        const filtered = this.products.filter(p => 
+        // 過濾掉已經在當前看板中的商品，避免重複
+        const currentDrinkNames = this.currentMenuData && this.currentMenuData.drinks ? this.currentMenuData.drinks.map(d => d.name) : [];
+        const availableProducts = this.products.filter(p => !currentDrinkNames.includes(p.name));
+        
+        const filtered = availableProducts.filter(p => 
           p.name.toLowerCase().includes(lowerFilter) || 
           (p.engName && p.engName.toLowerCase().includes(lowerFilter))
         );
