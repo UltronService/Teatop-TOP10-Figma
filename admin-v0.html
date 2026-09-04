@@ -27,7 +27,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script src="data/default_menus.js?v=1"></script>
-  <script src="firebase-config.js?v=1"></script>
+  <script src="firebase-config.js?v=2"></script>
 
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -94,6 +94,7 @@
       const [products, setProducts] = useState([]);
       const [loadingCatalog, setLoadingCatalog] = useState(false);
       const [productPickerOpen, setProductPickerOpen] = useState(false);
+      const [productSearchTerm, setProductSearchTerm] = useState('');
       const [pickingIndex, setPickingIndex] = useState(null);
 
       // Pricing 狀態
@@ -218,6 +219,46 @@
         }
       };
 
+      const handleDeleteRegion = async (regionId, currentName) => {
+        if (regions.length <= 1) {
+          showToast('系統至少需保留一個分區，無法刪除！', 'error');
+          return;
+        }
+        const confirmed = window.confirm(
+          `確定要刪除「${currentName}」分區嗎？\n\n注意：此操作將同時刪除該分區在雲端資料庫的專屬看板配置，且無法復原！`
+        );
+        if (!confirmed) return;
+
+        const newRegions = regions.filter(r => r.id !== regionId);
+        setRegions(newRegions);
+
+        if (activeRegionId === regionId) {
+          setActiveRegionId(newRegions[0].id);
+        }
+
+        setAllRegionMenus(prev => {
+          const next = { ...prev };
+          delete next[regionId];
+          return next;
+        });
+
+        try {
+          if (window.teatopFirebase) {
+            if (window.teatopFirebase.deleteRegion) {
+              await window.teatopFirebase.deleteRegion(regionId, newRegions);
+            } else if (window.teatopFirebase.saveRegions) {
+              await window.teatopFirebase.saveRegions(newRegions);
+            }
+            showToast(`已成功刪除分區「${currentName}」及關聯看板配置！`);
+          } else {
+            showToast(`分區「${currentName}」已從本地移除。`);
+          }
+        } catch (err) {
+          console.error("刪除分區失敗", err);
+          showToast(`刪除分區失敗: ${err.message}`, 'error');
+        }
+      };
+
       const handleSaveSignage = async () => {
         if (!menuData) return;
         setSaving(true);
@@ -297,6 +338,7 @@
         });
         setMenuData(newData);
         setSignageDirty(true);
+        setProductSearchTerm('');
         setProductPickerOpen(false);
       };
 
@@ -305,24 +347,33 @@
       // Pricing 邏輯
       // ===========================
       
+      // 安全數值處理輔助函式 (過濾非數字、限制數值長度與上下限)
+      const sanitizePriceInput = (val) => {
+         if (val === '' || val === null || val === undefined) return '';
+         const cleaned = String(val).replace(/[^\d]/g, '');
+         if (cleaned === '') return '';
+         const num = parseInt(cleaned, 10);
+         return Math.min(Math.max(0, num), 99999);
+      };
+
       const updateMatrixPrice = (prodName, regionId, newPrice) => {
+         const sanitized = sanitizePriceInput(newPrice);
          const menus = { ...allRegionMenus };
          if (menus[regionId] && menus[regionId].drinks) {
             const target = menus[regionId].drinks.find(d => d.name === prodName);
             if (target) {
-               target.price = Number(newPrice);
-            } else {
-               // 看板如果沒有這個商品，就無作用，或者可以選擇先忽略
+               target.price = sanitized;
             }
          }
          setAllRegionMenus(menus);
       };
 
       const updateCatalogPrice = (prodId, newPrice) => {
+         const sanitized = sanitizePriceInput(newPrice);
          const newProds = [...products];
          const target = newProds.find(p => p.id === prodId);
          if (target) {
-             target.price = Number(newPrice);
+             target.price = sanitized;
              setProducts(newProds);
          }
       };
@@ -330,13 +381,36 @@
       const handleSavePricing = async () => {
          setSaving(true);
          try {
+            // 清洗總庫價格 (保證為非負整數)
+            const sanitizedProducts = products.map(p => ({
+               ...p,
+               price: Math.max(0, parseInt(p.price, 10) || 0)
+            }));
+            setProducts(sanitizedProducts);
+
+            // 清洗各分區價格
+            const sanitizedMenus = {};
+            for (const reg of regions) {
+               if (allRegionMenus[reg.id]) {
+                  const m = allRegionMenus[reg.id];
+                  sanitizedMenus[reg.id] = {
+                     ...m,
+                     drinks: (m.drinks || []).map(d => ({
+                        ...d,
+                        price: Math.max(0, parseInt(d.price, 10) || 0)
+                     }))
+                  };
+               }
+            }
+            setAllRegionMenus(sanitizedMenus);
+
             if (window.teatopFirebase) {
                // 儲存總庫
-               await window.teatopFirebase.saveProducts(products);
+               await window.teatopFirebase.saveProducts(sanitizedProducts);
                // 儲存各分區
                for (const reg of regions) {
-                  if (allRegionMenus[reg.id]) {
-                     await window.teatopFirebase.saveRegionMenu(reg.id, allRegionMenus[reg.id]);
+                  if (sanitizedMenus[reg.id]) {
+                     await window.teatopFirebase.saveRegionMenu(reg.id, sanitizedMenus[reg.id]);
                   }
                }
                showToast('全台價格與基準定價已成功更新與發布！');
@@ -344,12 +418,23 @@
                showToast('Firebase 未連接', 'error');
             }
          } catch(err) {
-            showToast('儲存失敗', 'error');
+            showToast('儲存失敗: ' + (err.message || ''), 'error');
          } finally {
             setSaving(false);
          }
       };
 
+
+      // 過濾商品挑選彈窗清單
+      const filteredPickerProducts = useMemo(() => {
+        if (!productSearchTerm || !productSearchTerm.trim()) return products;
+        const q = productSearchTerm.trim().toLowerCase();
+        return products.filter(p => 
+          (p.name && p.name.toLowerCase().includes(q)) ||
+          (p.engName && p.engName.toLowerCase().includes(q)) ||
+          (p.category && p.category.toLowerCase().includes(q))
+        );
+      }, [products, productSearchTerm]);
 
       // ===========================
       // 渲染元件
@@ -369,33 +454,48 @@
           {/* Product Picker Modal */}
           {productPickerOpen && (
              <div className="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center p-4">
-                <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
+                <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
                    <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
                       <h3 className="text-lg font-bold text-brand-navy flex items-center gap-2">
                          <Icon name="Search" size={18} /> 從商品總庫挑選
                       </h3>
-                      <button onClick={() => setProductPickerOpen(false)} className="text-gray-500 hover:text-red-500">
+                      <button onClick={() => { setProductPickerOpen(false); setProductSearchTerm(''); }} className="text-gray-500 hover:text-red-500">
                          <Icon name="X" size={24} />
                       </button>
                    </div>
-                   <div className="p-2 border-b border-gray-100">
+                   <div className="p-3 border-b border-gray-100 bg-white relative flex items-center">
+                      <div className="absolute left-6 text-gray-400 pointer-events-none">
+                         <Icon name="Search" size={16} />
+                      </div>
                       <input 
                          type="text" 
-                         placeholder="搜尋商品名稱..."
-                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-orange"
-                         onChange={(e) => {
-                           // 本地搜尋邏輯可擴充
-                         }}
+                         value={productSearchTerm}
+                         placeholder="搜尋商品名稱、英文名或分類..."
+                         className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-brand-orange text-sm"
+                         onChange={(e) => setProductSearchTerm(e.target.value)}
+                         autoFocus
                       />
+                      {productSearchTerm && (
+                         <button 
+                            onClick={() => setProductSearchTerm('')}
+                            className="absolute right-6 text-gray-400 hover:text-gray-600 p-1"
+                            title="清除搜尋"
+                         >
+                            <Icon name="X" size={16} />
+                         </button>
+                      )}
                    </div>
                    <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50">
-                      {products.map(prod => (
+                      {filteredPickerProducts.map(prod => (
                          <div key={prod.id || prod.name} 
                               onClick={() => selectProductFromCatalog(prod)}
                               className="flex items-center gap-4 p-3 bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-brand-orange hover:shadow-md transition-all">
                             <img src={prod.heroImg} alt="" className="w-12 h-12 object-contain bg-gray-50 rounded-md" />
                             <div className="flex-1">
-                               <div className="font-bold text-gray-800">{prod.name}</div>
+                               <div className="font-bold text-gray-800 flex items-center gap-2">
+                                  {prod.name}
+                                  {prod.category && <span className="text-[10px] bg-orange-100 text-brand-orange px-2 py-0.5 rounded-full font-bold">{prod.category}</span>}
+                               </div>
                                <div className="text-xs text-gray-500">{prod.engName}</div>
                             </div>
                             <div className="text-brand-orange font-black">${prod.price}</div>
@@ -404,6 +504,11 @@
                       ))}
                       {products.length === 0 && (
                          <div className="text-center text-gray-400 py-10">尚無商品，請先至商品總庫管理新增。</div>
+                      )}
+                      {products.length > 0 && filteredPickerProducts.length === 0 && (
+                         <div className="text-center text-gray-400 py-10">
+                            查無符合「<span className="text-brand-orange font-bold">{productSearchTerm}</span>」的商品
+                         </div>
                       )}
                    </div>
                 </div>
@@ -478,13 +583,27 @@
                                  if (signageDirty && !window.confirm('您有未儲存的變更，確定要切換區域嗎？')) return;
                                  setActiveRegionId(region.id);
                                }}
-                               className="flex-1 text-left px-2 py-1"
+                               className="flex-1 text-left px-2 py-1 truncate"
+                               title={region.name}
                              >
                                {region.name}
                              </button>
-                             <button onClick={() => handleRenameRegion(region.id, region.name)} className={`p-1 rounded transition-colors ${activeRegionId === region.id ? 'hover:bg-blue-800 text-gray-300 hover:text-white' : 'hover:bg-gray-200 text-gray-400 hover:text-gray-700'}`}>
-                               <Icon name="Edit2" size={14} />
-                             </button>
+                             <div className="flex items-center gap-1 flex-shrink-0">
+                               <button 
+                                 onClick={() => handleRenameRegion(region.id, region.name)} 
+                                 title="重新命名"
+                                 className={`p-1 rounded transition-colors ${activeRegionId === region.id ? 'hover:bg-blue-800 text-gray-300 hover:text-white' : 'hover:bg-gray-200 text-gray-400 hover:text-gray-700'}`}
+                               >
+                                 <Icon name="Edit2" size={14} />
+                               </button>
+                               <button 
+                                 onClick={() => handleDeleteRegion(region.id, region.name)} 
+                                 title="刪除分區"
+                                 className={`p-1 rounded transition-colors ${activeRegionId === region.id ? 'hover:bg-red-600 text-gray-300 hover:text-white' : 'hover:bg-red-50 text-gray-400 hover:text-red-600'}`}
+                               >
+                                 <Icon name="Trash2" size={14} />
+                               </button>
+                             </div>
                           </div>
                         ))}
                       </div>
@@ -557,7 +676,7 @@
                                           <div className="text-xs text-gray-400 font-bold">看板售價</div>
                                           <div className="text-lg font-black text-brand-orange">${item.price}</div>
                                        </div>
-                                       <button onClick={() => { setPickingIndex(idx); setProductPickerOpen(true); }} className="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-bold text-brand-navy hover:text-brand-orange hover:border-brand-orange flex items-center gap-2 transition-all">
+                                       <button onClick={() => { setPickingIndex(idx); setProductSearchTerm(''); setProductPickerOpen(true); }} className="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-sm font-bold text-brand-navy hover:text-brand-orange hover:border-brand-orange flex items-center gap-2 transition-all">
                                           <Icon name="PackageSearch" size={16} /> 變更飲品
                                        </button>
                                     </div>
@@ -733,9 +852,16 @@
                                     <td className="p-2 text-center bg-orange-50/30 border-x border-gray-100">
                                        <div className="flex items-center justify-center gap-1">
                                           <span className="text-gray-400 font-bold">$</span>
-                                          <input type="number" 
-                                             value={prod.price || 0} 
+                                          <input type="text" 
+                                             inputMode="numeric"
+                                             pattern="[0-9]*"
+                                             value={prod.price === '' ? '' : (prod.price ?? 0)} 
                                              onChange={(e) => updateCatalogPrice(prod.id, e.target.value)}
+                                             onBlur={(e) => {
+                                                if (e.target.value === '' || isNaN(Number(e.target.value))) {
+                                                   updateCatalogPrice(prod.id, 0);
+                                                }
+                                             }}
                                              className="w-16 px-1 py-1 text-center font-black text-brand-orange border border-transparent hover:border-gray-300 focus:border-brand-orange rounded bg-transparent focus:bg-white transition-all" />
                                        </div>
                                     </td>
@@ -749,9 +875,16 @@
                                           {hasProduct ? (
                                           <div className="flex items-center justify-center gap-1">
                                              <span className="text-gray-300 font-bold">$</span>
-                                             <input type="number" 
-                                                value={pPrice} 
+                                             <input type="text" 
+                                                inputMode="numeric"
+                                                pattern="[0-9]*"
+                                                value={pPrice === '' ? '' : (pPrice ?? 0)} 
                                                 onChange={(e) => updateMatrixPrice(prod.name, r.id, e.target.value)}
+                                                onBlur={(e) => {
+                                                   if (e.target.value === '' || isNaN(Number(e.target.value))) {
+                                                      updateMatrixPrice(prod.name, r.id, 0);
+                                                   }
+                                                }}
                                                 className="w-16 px-1 py-1 text-center font-bold text-gray-700 border border-transparent hover:border-gray-300 focus:border-brand-orange rounded bg-transparent focus:bg-white transition-all" />
                                           </div>
                                           ) : (

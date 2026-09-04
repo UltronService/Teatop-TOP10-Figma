@@ -249,6 +249,25 @@ class TeatopFirebaseManager {
     await this.db.collection('settings').doc('regions').set({ list: regionsList, updatedAt: new Date().toISOString() });
     console.log(`[Firebase] 區域設定已更新！`);
   }
+
+  /**
+   * 刪除區域設定並清理該區域看板文檔 (防止孤立資料)
+   */
+  async deleteRegion(regionId, updatedRegionsList) {
+    if (!this.isInitialized || !this.db) {
+      throw new Error('Firebase 尚未就緒，請檢查網路連線');
+    }
+    const batch = this.db.batch();
+    // 1. 刪除該分區的看板菜單資料庫文檔 (避免孤立資料)
+    const regionDocRef = this.db.collection('regions').doc(regionId);
+    batch.delete(regionDocRef);
+    // 2. 更新分區清單設定
+    const settingsDocRef = this.db.collection('settings').doc('regions');
+    batch.set(settingsDocRef, { list: updatedRegionsList, updatedAt: new Date().toISOString() });
+
+    await batch.commit();
+    console.log(`[Firebase] 分區 [${regionId}] 及其看板配置已成功刪除！`);
+  }
 }
 
 // 建立全域單例
