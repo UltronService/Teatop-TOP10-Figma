@@ -1,5 +1,5 @@
-﻿# TEA TOP 第一味 - TOP 10 數位電子看板與雲端管理系統
-> **Version 1.0.1** | High-Fidelity Digital Signage & Cloud CMS
+# TEA TOP 第一味 - TOP 10 數位電子看板與雲端管理系統
+> **Version 1.1.0** | High-Fidelity Digital Signage & Cloud CMS
 
 本專案為 **TEA TOP 第一味** 打造之門市專用「TOP 10 數位電子看板」與「雲端視覺化管理後台」。基於 Figma 設計稿進行 1:1 像素級高保真切版，搭載 1920x1080 Full HD 智能等比縮放機制，並整合 Firebase Firestore 實現跨分區菜單即時推播與離線容錯防白屏機制。
 
@@ -83,6 +83,25 @@ python -m http.server 8085
 
 ---
 
+## 🧪 自動化端對端測試 (E2E Testing with Playwright)
+
+專案包含完整的 Playwright 自動化測試套件，涵蓋展示端動畫輪播、後台完整功能模組與異常防呆驗證：
+
+```bash
+# 啟動本地測試伺服器 (Port 8085)
+npx http-server . -p 8085 -c-1
+
+# 執行所有 Playwright E2E 測試
+npx playwright test
+
+# 執行特定測試套件
+npx playwright test tests/admin-v0.spec.js  # 後台全模組測試 (看板配置/商品總庫/分區定價/防呆機制)
+npx playwright test tests/frontend.spec.js  # 電子看板輪播與畫面渲染測試
+npx playwright test tests/backend.spec.js   # 後台基礎功能測試
+```
+
+---
+
 ## 📂 專案檔案結構 (Project Structure)
 
 ```text
@@ -98,6 +117,10 @@ Teatop TOP10 Figma/
 ├── data/
 │   └── default_menus.js    # 各分區預設菜單資料（提供離線秒開與斷網備援）
 ├── assets/                 # 品牌標誌、飲品透明背景圖、背景紋理等素材
+├── tests/                  # Playwright 自動化端對端測試套件
+│   ├── admin-v0.spec.js    # 管理後台全功能模組 E2E 深度測試
+│   ├── frontend.spec.js    # 數位看板展示與自動輪播測試
+│   └── backend.spec.js     # 管理後台基礎功能測試
 ├── admin.html              # 備用純 HTML/CSS 管理後台版本
 ├── admin-ui/               # Vite + React 管理後台模組原始碼
 ├── firebase.json           # Firebase Hosting 與 Firestore 配置檔
@@ -109,6 +132,16 @@ Teatop TOP10 Figma/
 ---
 
 ## 🏷️ 版本歷史 (Changelog)
+
+### `v1.1.0` - 2026-09-04
+* 🛡️ **榜單防重複機制**：更換 TOP 10 項目時若選中已存在於榜單之商品，自動執行雙向對調（Swap），徹底杜絕品項重複配置問題。
+* 🔍 **全域庫搜尋與定價優化**：
+  * 商品總庫新增即時搜尋與分類篩選，並強化搜尋結果為空時的友善提示。
+  * 矩陣分區定價優化數值輸入與雙向連動，避免輸入非數字或空值引發之計算異常。
+* 🗑️ **分區安全刪除與管理**：支援自定義門市/分區的新增與刪除功能，並加入最後分區防呆保護機制。
+* 🧪 **Playwright 完整測試套件**：
+  * 新增 `tests/admin-v0.spec.js`，包含看板排行榜配置、商品總庫管理、分區定價矩陣及防呆邏輯等完整自動化檢測。
+  * 支援循序執行與 Firestore 實時資料變更斷言。
 
 ### `v1.0.1` - 2026-09-03
 * 🚀 **雲端發布**：正式同步部署至 **Firebase Hosting** (`teatop-top10.web.app`) 與 **GitHub Pages**。
