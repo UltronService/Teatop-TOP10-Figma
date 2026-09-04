@@ -195,6 +195,60 @@ class TeatopFirebaseManager {
     await this.db.collection('products').doc(productId).delete();
     console.log(`[Firebase] 商品 [${productId}] 已從雲端刪除！`);
   }
+
+  /**
+   * 批次儲存商品總庫
+   */
+  async saveProducts(products) {
+    if (!this.isInitialized || !this.db) {
+      throw new Error('Firebase 尚未就緒，請檢查網路連線');
+    }
+    // Using a batch or just loops
+    const batch = this.db.batch();
+    for (const prod of products) {
+      const docId = prod.id || `prod_${Date.now()}_${Math.floor(Math.random()*1000)}`;
+      const docRef = this.db.collection('products').doc(docId);
+      const payload = {
+        ...prod,
+        id: docId,
+        updatedAt: new Date().toISOString()
+      };
+      if (payload._docId) delete payload._docId;
+      batch.set(docRef, payload, { merge: true });
+    }
+    await batch.commit();
+    console.log(`[Firebase] ${products.length} 筆商品已批次儲存至雲端！`);
+  }
+
+  /**
+   * 取得所有區域設定
+   */
+  async getRegions() {
+    const fallback = window.DEFAULT_REGIONS || [];
+    if (!this.isInitialized || !this.db) return fallback;
+    try {
+      const docSnap = await this.db.collection('settings').doc('regions').get();
+      if (docSnap.exists) {
+        return docSnap.data().list || fallback;
+      } else {
+        await this.db.collection('settings').doc('regions').set({ list: fallback });
+        return fallback;
+      }
+    } catch (err) {
+      return fallback;
+    }
+  }
+
+  /**
+   * 儲存所有區域設定
+   */
+  async saveRegions(regionsList) {
+    if (!this.isInitialized || !this.db) {
+      throw new Error('Firebase 尚未就緒，請檢查網路連線');
+    }
+    await this.db.collection('settings').doc('regions').set({ list: regionsList, updatedAt: new Date().toISOString() });
+    console.log(`[Firebase] 區域設定已更新！`);
+  }
 }
 
 // 建立全域單例

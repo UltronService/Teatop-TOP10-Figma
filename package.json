@@ -1,0 +1,27 @@
+{
+  "name": "teatop-top10-figma",
+  "version": "1.0.0",
+  "description": "> **Version 1.0.1** | High-Fidelity Digital Signage & Cloud CMS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UltronService/Teatop-TOP10-Figma.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/UltronService/Teatop-TOP10-Figma/issues"
+  },
+  "homepage": "https://github.com/UltronService/Teatop-TOP10-Figma#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "http-server": "^14.1.1",
+    "jsdom": "^30.0.1",
+    "vitest": "^4.1.11"
+  }
+}

@@ -73,12 +73,18 @@
 
       // Signage 狀態
       const [activeRegionId, setActiveRegionId] = useState('north');
-      const regions = window.DEFAULT_REGIONS || [
+      const [regions, setRegions] = useState(window.DEFAULT_REGIONS || [
         { id: 'north', name: '北部地區' },
         { id: 'central', name: '中部地區' },
         { id: 'south', name: '南部地區' },
-        { id: 'special', name: '特殊門市' } // 修正區域以對應
-      ];
+        { id: 'special', name: '特殊門市' }
+      ]);
+      
+      useEffect(() => {
+        if (window.teatopFirebase && window.teatopFirebase.getRegions) {
+          window.teatopFirebase.getRegions().then(list => setRegions(list));
+        }
+      }, []);
       const [menuData, setMenuData] = useState(null);
       const [loadingSignage, setLoadingSignage] = useState(false);
       const [signageDirty, setSignageDirty] = useState(false);
@@ -189,6 +195,29 @@
       // Signage 邏輯
       // ===========================
       
+      const handleAddRegion = async () => {
+        const newName = window.prompt('請輸入新區域的名稱 (例如: 東區門市):');
+        if (!newName || !newName.trim()) return;
+        const newId = 'region_' + Date.now();
+        const newRegions = [...regions, { id: newId, name: newName.trim(), desc: '' }];
+        setRegions(newRegions);
+        if (window.teatopFirebase && window.teatopFirebase.saveRegions) {
+           await window.teatopFirebase.saveRegions(newRegions);
+           showToast('已新增區域！');
+        }
+      };
+
+      const handleRenameRegion = async (regionId, currentName) => {
+        const newName = window.prompt('請輸入新的區域名稱:', currentName);
+        if (!newName || !newName.trim() || newName.trim() === currentName) return;
+        const newRegions = regions.map(r => r.id === regionId ? { ...r, name: newName.trim() } : r);
+        setRegions(newRegions);
+        if (window.teatopFirebase && window.teatopFirebase.saveRegions) {
+           await window.teatopFirebase.saveRegions(newRegions);
+           showToast('區域名稱已更新！');
+        }
+      };
+
       const handleSaveSignage = async () => {
         if (!menuData) return;
         setSaving(true);
@@ -437,24 +466,26 @@
                   {/* Sidebar */}
                   <aside className="w-64 flex-shrink-0">
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-24">
-                      <div className="p-4 bg-gray-50 border-b border-gray-200 font-bold text-gray-700 flex items-center gap-2">
-                        <Icon name="Map" size={18} /> 地區選擇
+                      <div className="p-4 bg-gray-50 border-b border-gray-200 font-bold text-gray-700 flex justify-between items-center">
+                        <span className="flex items-center gap-2"><Icon name="Map" size={18} /> 地區選擇</span>
+                        <button onClick={handleAddRegion} className="text-brand-orange hover:bg-orange-50 p-1 rounded transition-colors"><Icon name="PlusCircle" size={18} /></button>
                       </div>
                       <div className="p-2 space-y-1">
                         {regions.map(region => (
-                          <button
-                            key={region.id}
-                            onClick={() => {
-                              if (signageDirty && !window.confirm('您有未儲存的變更，確定要切換區域嗎？')) return;
-                              setActiveRegionId(region.id);
-                            }}
-                            className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm font-bold transition-all ${
-                              activeRegionId === region.id ? 'bg-brand-navy text-white shadow-md' : 'text-gray-600 hover:bg-gray-100'
-                            }`}
-                          >
-                            {region.name}
-                            <Icon name="ChevronRight" size={16} className={activeRegionId === region.id ? 'opacity-100' : 'opacity-0'} />
-                          </button>
+                          <div key={region.id} className={`w-full flex items-center justify-between px-2 py-2 rounded-lg text-sm font-bold transition-all ${activeRegionId === region.id ? 'bg-brand-navy text-white shadow-md' : 'text-gray-600 hover:bg-gray-100'}`}>
+                             <button
+                               onClick={() => {
+                                 if (signageDirty && !window.confirm('您有未儲存的變更，確定要切換區域嗎？')) return;
+                                 setActiveRegionId(region.id);
+                               }}
+                               className="flex-1 text-left px-2 py-1"
+                             >
+                               {region.name}
+                             </button>
+                             <button onClick={() => handleRenameRegion(region.id, region.name)} className={`p-1 rounded transition-colors ${activeRegionId === region.id ? 'hover:bg-blue-800 text-gray-300 hover:text-white' : 'hover:bg-gray-200 text-gray-400 hover:text-gray-700'}`}>
+                               <Icon name="Edit2" size={14} />
+                             </button>
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -549,7 +580,18 @@
                         <p className="text-sm opacity-80 mt-1">集中管理所有飲品基本資料。修改此處將影響未來的套用，不會直接覆蓋已發布的看板。</p>
                      </div>
                      <div className="flex gap-2">
-                        <button className="bg-brand-orange text-white px-4 py-2 rounded-lg font-bold shadow-md hover:bg-orange-500 flex items-center gap-2">
+                        <button onClick={() => {
+                           const newId = 'prod_' + Date.now();
+                           setProducts([...products, {
+                              id: newId,
+                              name: '新商品',
+                              engName: 'New Drink',
+                              price: 0,
+                              theme: 'orange',
+                              heroImg: 'assets/images/drinks/drink_1_hero.png',
+                              badges: []
+                           }]);
+                        }} className="bg-brand-orange text-white px-4 py-2 rounded-lg font-bold shadow-md hover:bg-orange-500 flex items-center gap-2">
                            <Icon name="PlusCircle" size={18} /> 新增商品
                         </button>
                         <button 
@@ -613,7 +655,7 @@
                                           const i = b.findIndex(x=>x.includes('hot'));
                                           if(i>=0) b.splice(i, 1);
                                           else b.push('assets/images/badges/badge_hot.png');
-                                          newProds[idx].badges = b;
+                                          newProds[idx] = { ...newProds[idx], badges: [...b] };
                                           setProducts(newProds);
                                        }} /> ♨️ 可熱飲</label>
                                        <label className="flex items-center gap-1 text-[11px] cursor-pointer text-gray-600"><input type="checkbox" checked={isFixedSugar} onChange={()=>{
@@ -622,7 +664,7 @@
                                           const i = b.findIndex(x=>x.includes('fixed_sugar'));
                                           if(i>=0) b.splice(i, 1);
                                           else b.push('assets/images/badges/badge_fixed_sugar.png');
-                                          newProds[idx].badges = b;
+                                          newProds[idx] = { ...newProds[idx], badges: [...b] };
                                           setProducts(newProds);
                                        }} /> 🍬 固定甜</label>
                                        <label className="flex items-center gap-1 text-[11px] cursor-pointer text-gray-600"><input type="checkbox" checked={isNoCaff} onChange={()=>{
@@ -630,8 +672,8 @@
                                           const b = newProds[idx].badges || [];
                                           const i = b.findIndex(x=>x.includes('no_caffeine'));
                                           if(i>=0) b.splice(i, 1);
-                                          else b.push('assets/images/badges/badge_no_caffeine.png');
-                                          newProds[idx].badges = b;
+                                          else b.push('assets/images/badges/badge_no_caffeine_hot_fixed_orange.png');
+                                          newProds[idx] = { ...newProds[idx], badges: [...b] };
                                           setProducts(newProds);
                                        }} /> 🌿 無咖啡因</label>
                                     </div>
